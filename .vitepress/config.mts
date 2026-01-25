@@ -105,5 +105,5 @@ export default defineConfig({
   },
 
   srcDir: "src",
-  base: '/antoinecoulon/'
+  base: '/dev-docs/'
 });
