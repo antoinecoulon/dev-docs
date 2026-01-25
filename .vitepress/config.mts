@@ -105,4 +105,5 @@ export default defineConfig({
   },
 
   srcDir: "src",
+  base: '/dev-docs/'
 });
