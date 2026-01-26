@@ -2,6 +2,7 @@
 
 ## Résumé des fichiers de config essentiels (nuxt.config.ts + .env)
 
+### `nuxt.config.ts`
 ```tsx
 // nuxt.config.ts - Configuration minimale recommandée
 export default defineNuxtConfig({
@@ -24,6 +25,39 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+---
+
+```ts
+typescript: {
+  typeCheck: true,
+  strict: true,
+  includeWorkspace: true
+},
+```
+
+1. strict: true (Le Maître d'école)
+C'est l'option la plus importante pour la qualité du code. Elle active un ensemble de règles de sécurité dans TypeScript (comme noImplicitAny, strictNullChecks, etc.).
+
+Ce que ça fait : Ça force TypeScript à être intransigeant. Tu ne peux pas laisser de variables sans type défini, et tu dois gérer les cas où une valeur pourrait être null ou undefined.
+
+L'intérêt : Éviter 90% des bugs stupides en production (le fameux Cannot read property 'x' of undefined).
+
+2. includeWorkspace: true (La Vue d'ensemble)
+Cette option est cruciale si tu travailles dans un monorepo ou avec des Nuxt Layers.
+
+Ce que ça fait : Ça demande à Nuxt d'inclure les autres dossiers de ton espace de travail (en dehors du dossier app actuel) dans l'analyse TypeScript.
+
+L'intérêt : Si ton dashboard utilise des composants ou des utilitaires situés dans un autre dossier du projet, TypeScript pourra les "voir" et vérifier que tu les utilises correctement.
+
+3. typeCheck: true (Le Garde-frontière)
+C'est ici que ton erreur ENOTEMPTY prenait racine.
+
+Ce que ça fait : Au moment où tu lances npm run dev ou npm run build, Nuxt lance un processus séparé (souvent vue-tsc) qui scanne tout ton projet pour trouver des erreurs de type.
+
+L'intérêt : Ça t'empêche de lancer ou de déployer une application qui contient des erreurs TypeScript, même si le code "semble" fonctionner visuellement.
+
+### `.env`
 
 ```
 // .env (jamais commité)
