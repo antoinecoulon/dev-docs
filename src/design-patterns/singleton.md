@@ -1,4 +1,4 @@
-# Singleton
+<!-- # Singleton
 
 ## Définition et Contexte
 
@@ -902,4 +902,4 @@ Dans le contexte de votre certification "Expert en Architecture et Développemen
 
 **Dans 90% des cas, préférez l'injection de dépendances avec un cycle de vie Singleton géré par le conteneur DI.**
 
-Le pattern Singleton est un outil dans votre boîte à outils, mais comme un marteau-piqueur : puissant mais à utiliser avec précaution et uniquement quand c'est vraiment nécessaire.
+Le pattern Singleton est un outil dans votre boîte à outils, mais comme un marteau-piqueur : puissant mais à utiliser avec précaution et uniquement quand c'est vraiment nécessaire. -->

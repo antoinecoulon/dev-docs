@@ -33,15 +33,13 @@ En UML, on retrouve **une dizaine de types de diagrammes différents**, avec ch
 
 Voici à quoi peuvent ressembler certains de ces diagrammes UML, utilisés pour l'architecture logicielle :
 
-![](https://cellar-c2.services.clever-cloud.com/content/2023/03/diagrams.png)
-
 Une fois le travail d'architecture logicielle terminé, **on peut alors démarrer l'implémentation** (même si une phase d'architecture est requise à chaque évolution du projet).
 
 Attention : **Il ne faut pas confondre l'architecture logicielle avec l'architecture des systèmes d'information**, qui consiste à concevoir/planifier les serveurs, les réseaux et toute l'infrastructure d'un projet et/ou d'une entreprise !
 
 ---
 
-# Évolution historique des architectures logicielles
+## Évolution historique des architectures logicielles
 
 ## 1. Server Pages (années 1990)
 

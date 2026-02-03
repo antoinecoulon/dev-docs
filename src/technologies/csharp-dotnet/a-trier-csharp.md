@@ -1,4 +1,4 @@
-# C# - ASP.NET Core
+<!-- # C# - ASP.NET Core
 
 <aside>
 🔖
@@ -1025,20 +1025,7 @@ L’architecture en couches sépare les responsabilités en plusieurs couches : 
     
     ---
     
-    ### **5. Diagramme de Flux**
-    
-    ```mermaid
-     Copier
-    graph TD
-        A[Controller] -->|Appel| B[Service]
-        B -->|Appel| C[Repository]
-        C -->|Retourne les données| B
-        B -->|Retourne le résultat| A
-    
-    ```
-    
-    ---
-    
+ 
     ### **6. Exemple de Test Unitaire**
     
     Voici un exemple de test unitaire pour le service `UserService` en utilisant un mock du repository.
@@ -1181,7 +1168,6 @@ L’architecture MVC (Modèle-Vue-Contrôleur) sépare la logique métier (Modè
     
     ```html
      Copier
-    <!-- Views/Tasks/Index.cshtml -->
     @model IEnumerable<Task>
     
     <h1>Liste des tâches</h1>
@@ -1283,10 +1269,10 @@ L’architecture MVC (Modèle-Vue-Contrôleur) sépare la logique métier (Modè
     ```mermaid
      Copier
     graph TD
-        A[Vue] -->|Interaction utilisateur| B[Contrôleur]
-        B -->|Récupère/Met à jour les données| C[Modèle]
-        C -->|Retourne les données| B
-        B -->|Affiche les données| A
+        A[Vue] |Interaction utilisateur| B[Contrôleur]
+        B|Récupère/Met à jour les données| C[Modèle]
+        C =Retourne les données| B
+        B |Affiche les données| A
     
     ```
     
@@ -1511,10 +1497,10 @@ L’architecture microservices décompose une application en petits services ind
     ```mermaid
      Copier
     graph TD
-        A[Client] -->|Requête| B[Service Articles]
-        B -->|Requête| C[Service Commentaires]
-        C -->|Retourne les commentaires| B
-        B -->|Retourne les données| A
+        A[Client] Requête| B[Service Articles]
+        B Requête| C[Service Commentaires]
+        C Retourne les commentaires| B
+        B Retourne les données| A
     
     ```
     
@@ -8799,4 +8785,4 @@ Votre application est maintenant configurée avec SQLite et prête pour le déve
 - Chaque couche peut être testée indépendamment grâce aux interfaces
 - Les repositories et services peuvent être mockés pour les tests unitaires
 
-Cette architecture respecte les principes SOLID et facilite la maintenance et l'évolution de l'application.
+Cette architecture respecte les principes SOLID et facilite la maintenance et l'évolution de l'application. -->
