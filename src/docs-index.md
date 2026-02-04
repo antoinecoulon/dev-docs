@@ -26,6 +26,10 @@
 - [React / Next](./technologies/react-next/react-next)
 - [Tailwind CSS](./technologies/tailwind-css/tailwind-css)
 
+## Déploiement
+
+- [Docker](./deploy/docker)
+
 ## Gestion de projet
 
 - [UML](./gestion-projet/uml)
