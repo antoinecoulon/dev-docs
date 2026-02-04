@@ -21,81 +21,51 @@ export default defineConfig({
             items: [
               {
                 text: "Nuxt 4",
-                link: "/technologies/nuxt-4",
-                items: [
-                  {
-                    text: "Fondamentaux",
-                    link: "/technologies/nuxt-4/fondamentaux",
-                  },
-                  {
-                    text: "Setup et Configuration",
-                    link: "/technologies/nuxt-4/setup-config",
-                  },
-                  {
-                    text: "Structure de base",
-                    link: "/technologies/nuxt-4/structure-base",
-                  },
-                  {
-                    text: "SSR vs. SPA",
-                    link: "/technologies/nuxt-4/ssr-spa",
-                  },
-                  {
-                    text: "Architecture fullstack",
-                    items: [
-                      {
-                        text: "Data",
-                        link: "/technologies/nuxt-4/fullstack-data",
-                        items: [
-                          {
-                            text: "Configuration SQLite + Drizzle",
-                            link: "/technologies/nuxt-4/fullstack-data/sqlite-drizzle",
-                          },
-                          {
-                            text: "Typage SQLite + Drizzle",
-                            link: "/technologies/nuxt-4/fullstack-data/sqlite-drizzle-typage",
-                          },
-                          {
-                            text: "Flux de données",
-                            link: "/technologies/nuxt-4/fullstack-data/flux-data",
-                          },
-                        ],
-                      },
-                      {
-                        text: "Authentification",
-                        link: "/technologies/nuxt-4/authentification",
-                      },
-                    ],
-                  },
-                  {
-                    text: "Architecture BFF",
-                    items: [
-                      {
-                        text: "Fondamentaux",
-                        link: "/technologies/nuxt-4/bff",
-                      },
-                      {
-                        text: "Data",
-                        link: "/technologies/nuxt-4/bff-data",
-                      },
-                    ],
-                  },
-                  {
-                    text: "UI",
-                    items: [
-                      {
-                        text: "Layouts",
-                        link: "/technologies/nuxt-4/layouts",
-                      },
-                      {
-                        text: "NuxtUI",
-                        link: "/technologies/nuxt-4/nuxt-ui",
-                      },
-                    ],
-                  },
-                ],
+                link: "/technologies/nuxt-4/nuxt-4",
               },
-            ],
+              {
+                text: "C# / .NET",
+                link: "/technologies/csharp-dotnet/csharp-dotnet"
+              },
+              {
+                text: "React Native",
+                link: "/technologies/react-native/react-native"
+              },
+              {
+                text: "React / Next.js",
+                link: "/technologies/react-next/react-next"
+              },
+              {
+                text: "Tailwind CSS",
+                link: "/technologies/tailwind-css/tailwind-css"
+              }
+            ]
           },
+          {
+            text: "Sécurité",
+            link: "/security/security"
+          },
+          {
+            text: "Architecture",
+            link: "/architecture/architecture"
+          },
+          {
+            text: "Design Patterns",
+            link: "/design-patterns/design-patterns"
+          },
+          {
+            text: "Déploiement",
+            link: "/deploy/deploy"
+          },
+          {
+            text: "Gestion de projet",
+            link: "/gestion-projet/gestion-projet"
+          },
+          {
+            text: "Git",
+            link: "/git/git"
+          },
+          { text: "Ressources", link: "/resources/a-trier-resources"},
           { text: "About", link: "/about" },
         ],
       },
