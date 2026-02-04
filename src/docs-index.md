@@ -22,7 +22,7 @@
 
 - [C# / .NET](./technologies/csharp-dotnet/csharp-dotnet)
 - [React Native](./technologies/react-native/react-native)
-- [Nuxt 4](./technologies/nuxt-4)
+- [Nuxt 4](./technologies/nuxt-4/nuxt-4)
 - [React / Next](./technologies/react-next/react-next)
 - [Tailwind CSS](./technologies/tailwind-css/tailwind-css)
 
@@ -40,7 +40,7 @@
 
 ## Sécurité
 
-- [Protection utilisateurs (auth, chiffrement...)](./security/protection-utilisateurs)
+- [Sécurité](./security/security)
 
 ## Ressources
 
