@@ -14,8 +14,8 @@ hero:
       link: /about
 
 features:
-  - title: In Progress...
-    details: Rappatriement et réorganisation de la doc Nuxt
+  - title: Documentation exhaustive
+    details: Exploration et prise de notes de différents concepts et technologies
   - title: In Progress...
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: In Progress...
