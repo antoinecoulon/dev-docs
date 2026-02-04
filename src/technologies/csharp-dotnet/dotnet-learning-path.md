@@ -1,4 +1,4 @@
-# Learning .NET
+<!-- # Learning .NET
 
 # Roadmap
 
@@ -2474,4 +2474,4 @@ Cette vue d'ensemble vous donne les outils pour choisir la bonne technologie .NE
     - Ne pas exposer entités EF ; passe toujours par DTOs.
     - `DbContext` = `Scoped`.
     - Eviter `.Result` / `.Wait()`.
-    - Toujours avoir une `Health check` et un endpoint `/metrics` basique en prod.
+    - Toujours avoir une `Health check` et un endpoint `/metrics` basique en prod. -->
