@@ -1,4 +1,9 @@
 # C# / .NET
 
-- [C# (à trier)](./a-trier-csharp)
-- [.NET learning path (à trier)](./dotnet-learning-path)
+- [C#](./csharp)
+- [.NET](./dotnet)
+  - [ASP.NET Core WebApi](./aspnet-webapi)
+- [.NET learning path](./dotnet-learning-path)
+
+- [AutoMapper](./automapper)
+- [Tests](./tests)
