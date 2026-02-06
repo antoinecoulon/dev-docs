@@ -1,12 +1,8 @@
 # Authentification dans une architecture fullstack
 
-# Authentification dans Nuxt 4 - Architecture Fullstack Pure
-
 ## Vue d’ensemble
 
 En architecture fullstack pure, **Nuxt gère l’intégralité du cycle d’authentification** : stockage des utilisateurs, vérification des credentials, gestion des sessions, et protection des routes. Contrairement au BFF où tu délègues à un backend externe, ici tu es responsable de tout.
-
----
 
 ## 1. Concepts clés
 
@@ -23,7 +19,7 @@ En architecture fullstack pure, **Nuxt gère l’intégralité du cycle d’auth
 
 Le serveur stocke l’état de connexion. Un identifiant de session est envoyé au client via cookie.
 
-```
+```text
 Client → Login → Serveur crée session → Cookie sessionId → Client
 Client → Request + Cookie → Serveur vérifie session → Réponse
 ```
@@ -35,7 +31,7 @@ Client → Request + Cookie → Serveur vérifie session → Réponse
 
 Le serveur génère un token signé contenant les infos utilisateur. Le client le renvoie à chaque requête.
 
-```
+```text
 Client → Login → Serveur génère JWT → Token → Client
 Client → Request + Token → Serveur vérifie signature → Réponse
 ```
@@ -49,7 +45,7 @@ Client → Request + Token → Serveur vérifie signature → Réponse
 
 Délégation de l’authentification à un provider externe (Google, GitHub, etc.).
 
-```
+```text
 Client → Redirect provider → User consent → Code → Serveur échange code → Tokens
 ```
 
@@ -64,13 +60,11 @@ Client → Redirect provider → User consent → Code → Serveur échange code
 
 **Bonne pratique** : toujours `httpOnly` + `secure` + `sameSite` pour les tokens sensibles.
 
----
-
 ## 2. Architecture dans Nuxt Fullstack
 
 ### 2.1 Structure recommandée
 
-```
+```text
 server/
 ├── api/
 │   └── auth/
@@ -123,7 +117,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
 ### 2.3 Flux d’authentification typique
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                        LOGIN                                │
 ├─────────────────────────────────────────────────────────────┤
@@ -144,8 +138,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
 │  5. Handler API accède à event.context.user                 │
 └─────────────────────────────────────────────────────────────┘
 ```
-
----
 
 ## 3. Librairies recommandées
 
@@ -172,7 +164,7 @@ export default defineNuxtConfig({
 
 **Configuration session** (`.env`) :
 
-```
+```text
 NUXT_SESSION_PASSWORD=min-32-caracteres-secret-key-here
 ```
 
@@ -225,8 +217,6 @@ export const users = sqliteTable('users', {
 })
 ```
 
----
-
 ## 4. Patterns d’implémentation
 
 ### 4.1 Handler de login (pattern)
@@ -256,6 +246,7 @@ export default defineEventHandler(async (event) => {
 ```
 
 **Points importants** :
+
 - Message d’erreur générique (ne pas révéler si l’email existe)
 - Ne jamais retourner `passwordHash`
 - Session stockée dans cookie chiffré automatiquement
@@ -321,7 +312,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
 **Application sur une page** :
 
-```
+```vue
 <script setup>
 definePageMeta({ middleware: 'auth' })
 </script>
@@ -335,8 +326,6 @@ export default defineNuxtRouteMiddleware((to) => {
   // Appliqué à toutes les routes
 })
 ```
-
----
 
 ## 5. Gestion des rôles (RBAC)
 
@@ -368,13 +357,11 @@ const { user } = useAuth()
 const isAdmin = computed(() => user.value?.role === 'admin')
 ```
 
-```
+```vue
 <template>
   <AdminPanel v-if="isAdmin" />
 </template>
 ```
-
----
 
 ## 6. OAuth2 avec nuxt-auth-utils
 
@@ -412,8 +399,6 @@ export default defineOAuthGitHubEventHandler({
 ```
 
 **Providers supportés** : GitHub, Google, Discord, Microsoft, et autres via config manuelle.
-
----
 
 ## 7. Bonnes pratiques
 
@@ -459,18 +444,17 @@ export default defineNuxtConfig({
 ### 7.4 Double protection
 
 Toujours combiner :
+
 1. **Middleware serveur** → protège les données
 2. **Middleware client** → améliore l’UX (redirection rapide)
 
 Le client peut être contourné, le serveur jamais.
 
----
-
 ## 8. Refresh tokens (optionnel, avancé)
 
 Pour les sessions longues avec révocation granulaire :
 
-```
+```text
 Access Token : courte durée (15 min), utilisé pour les requêtes
 Refresh Token : longue durée (7 jours), stocké httpOnly, sert à renouveler l'access token
 ```
@@ -487,13 +471,11 @@ Refresh Token : longue durée (7 jours), stocké httpOnly, sert à renouveler l'
 
 Avec `nuxt-auth-utils`, les sessions chiffrées gèrent cela automatiquement via le cookie. Le refresh token pattern est plus pertinent pour les architectures API-first ou mobile.
 
----
-
 ## 9. Checklist d’implémentation
 
-- [x]  Installer `nuxt-auth-utils`
-- [x]  Configurer `NUXT_SESSION_PASSWORD` (32+ caractères)
-- [x]  Créer la table `users` avec Drizzle
+- [ ]  Installer `nuxt-auth-utils`
+- [ ]  Configurer `NUXT_SESSION_PASSWORD` (32+ caractères)
+- [ ]  Créer la table `users` avec Drizzle
 - [ ]  Implémenter `/api/auth/register` avec hash Argon2
 - [ ]  Implémenter `/api/auth/login` avec validation Zod
 - [ ]  Implémenter `/api/auth/logout`
@@ -502,8 +484,6 @@ Avec `nuxt-auth-utils`, les sessions chiffrées gèrent cela automatiquement via
 - [ ]  Créer middleware page pour routes protégées
 - [ ]  Configurer HTTPS en production
 - [ ]  Ajouter rate limiting (optionnel mais recommandé)
-
----
 
 ## Ressources
 

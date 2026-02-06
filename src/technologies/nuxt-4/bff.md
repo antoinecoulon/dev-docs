@@ -1,6 +1,6 @@
 # Architecture Full Stack / BFF
 
-### Concept BFF (Backend For Frontend)
+## Concept BFF (Backend For Frontend)
 
 Le BFF est une couche API dédiée à ton frontend. Au lieu que ton front appelle directement ton backend .NET, il passe par `server/api/` qui :
 
@@ -9,13 +9,13 @@ Le BFF est une couche API dédiée à ton frontend. Au lieu que ton front appell
 - Cache les réponses
 - Masque la complexité du backend
 
-```
+```text
 [Frontend] → [Nuxt server/api/] → [Backend .NET]
 ```
 
 ### Structure server/
 
-```
+```text
 server/
 ├── api/              # Routes API exposées sous /api/*
 │   ├── users/
@@ -39,15 +39,15 @@ Tout ce qui se trouve dans `server/api/`, `server/routes/` ou `server/middleware
 
 ### Bonnes pratiques BFF
 
-**1. Nommer les fichiers avec la méthode HTTP**
+#### **1. Nommer les fichiers avec la méthode HTTP**
 
-```
+```text
 index.get.ts   → GET uniquement
 index.post.ts  → POST uniquement
 index.ts       → Toutes méthodes (à éviter, moins explicite)
 ```
 
-**2. Utiliser `defineCachedEventHandler` pour le cache**
+#### **2. Utiliser `defineCachedEventHandler` pour le cache**
 
 ```tsx
 // server/api/products.get.ts
@@ -77,7 +77,7 @@ Par défaut, Nuxt stocke cela **en mémoire** (L'application perd le cache si le
 - **FileSystem** (Stockage dans des fichiers sur le serveur).
 - **Cloudflare KV** (Pour le déploiement en Edge).
 
-**3. Centraliser la config API dans `server/utils/`**
+#### **3. Centraliser la config API dans `server/utils/`**
 
 ```tsx
 // server/utils/api.ts
@@ -132,7 +132,7 @@ export const throwUnauthorized = () => {
 }
 ```
 
-**4. Gérer les erreurs proprement**
+#### **4. Gérer les erreurs proprement**
 
 ```tsx
 export default defineEventHandler(async (event) => {
@@ -147,7 +147,8 @@ export default defineEventHandler(async (event) => {
 // Possible de créer des helpers dans utils/, voir ci-dessus...
 ```
 
-**5. Valider les entrées**
+#### **5. Valider les entrées**
+
 Utilise `zod` ou les utilitaires H3 :
 
 ```tsx

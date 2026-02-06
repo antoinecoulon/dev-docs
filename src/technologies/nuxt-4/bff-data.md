@@ -1,7 +1,5 @@
 # Manipuler et stocker des données (BFF)
 
-# Manipuler et stocker des données réelles avec Nuxt.js et une architecture fullstack BFF
-
 ## Table des matières
 
 1. [Comprendre l’architecture données dans un BFF](about:blank#1-comprendre-larchitecture-donn%C3%A9es-dans-un-bff)
@@ -13,15 +11,13 @@
 7. [Bonnes pratiques](about:blank#7-bonnes-pratiques)
 8. [Gestion des erreurs et validation](about:blank#8-gestion-des-erreurs-et-validation)
 
----
-
 ## 1. Comprendre l’architecture données dans un BFF
 
 ### Le rôle du BFF dans la gestion des données
 
 Dans une architecture BFF, ton serveur Nuxt (`server/`) agit comme **intermédiaire intelligent** entre :
 
-```
+```text
 ┌─────────────┐     ┌─────────────────────┐     ┌──────────────────┐
 │   Client    │ ──► │   Nuxt Server (BFF) │ ──► │  Sources données │
 │  (app/)     │ ◄── │   (server/)         │ ◄── │  (.NET, DB, API) │
@@ -40,7 +36,7 @@ Dans une architecture BFF, ton serveur Nuxt (`server/`) agit comme **intermédia
 
 ### Structure de fichiers orientée données
 
-```
+```text
 server/
 ├── api/                    # Endpoints REST exposés au client
 │   ├── users/
@@ -63,8 +59,6 @@ server/
 ```
 
 **Principe clé** : Séparation en couches → API → Service → Repository → Source
-
----
 
 ## 2. Le flux de données dans Nuxt fullstack
 
@@ -122,7 +116,7 @@ const { data } = await useAsyncData('users-key', () => {
 
 ### Le cycle de rendu et les données
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                         SSR (Serveur)                           │
 ├─────────────────────────────────────────────────────────────────┤
@@ -139,8 +133,6 @@ const { data } = await useAsyncData('users-key', () => {
 │  5. Pas de second appel API (grâce à la clé de cache)           │
 └─────────────────────────────────────────────────────────────────┘
 ```
-
----
 
 ## 3. Solutions de stockage : comparatif
 
@@ -223,8 +215,6 @@ export const cache = {
   }
 }
 ```
-
----
 
 ## 4. Concepts clés et syntaxe
 
@@ -348,8 +338,6 @@ export const useUserStore = () => {
 
 **Attention** : `useState` est hydraté du serveur vers le client. Pour des données sensibles, préférer un state purement client.
 
----
-
 ## 5. Librairies essentielles
 
 ### ORM et accès base de données
@@ -384,8 +372,6 @@ export const useUserStore = () => {
 | **unstorage** | Abstraction stockage (intégré Nuxt) |
 | **Redis** | Cache distribué production |
 | **lru-cache** | Cache mémoire simple |
-
----
 
 ## 6. Patterns d’accès aux données
 
@@ -490,8 +476,6 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
----
-
 ## 7. Bonnes pratiques
 
 ### Structure et organisation
@@ -574,8 +558,6 @@ config.databaseUrl      // Serveur seulement
 config.public.apiBase   // Client et serveur
 ```
 
----
-
 ## 8. Gestion des erreurs et validation
 
 ### Créer des erreurs HTTP propres
@@ -636,8 +618,6 @@ watch(error, (err) => {
 })
 ```
 
----
-
 ## Résumé des points clés
 
 | Concept | À retenir |
@@ -650,8 +630,6 @@ watch(error, (err) => {
 | **Cache** | Redis en prod, `unstorage` pour abstraction |
 | **Typage** | Inférer depuis le schéma DB |
 | **Sécurité** | Valider, ne pas exposer les erreurs internes |
-
----
 
 ## Prochaines étapes suggérées
 
