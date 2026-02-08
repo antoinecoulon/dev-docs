@@ -4,11 +4,10 @@ Guide pratique pour dockeriser une application fullstack et mettre en place un p
 
 **Contexte** : Application task-manager (mono-repo avec backend Python et frontend statique HTML/JS)
 
----
-
 ## 1. Prérequis
 
 ### Installation locale
+
 ```bash
 # Installer Docker
 # Vérifier l'installation
@@ -17,18 +16,18 @@ docker-compose --version
 ```
 
 ### Compte Docker Hub
+
 1. Créer un compte sur [hub.docker.com](https://hub.docker.com)
 2. Créer un token d'accès : Account Settings → Security → New Access Token
 3. Conserver le token pour le CI/CD
-
----
 
 ## 2. Dockerisation de l'application
 
 ### 2.1 Backend Python
 
-**Structure du projet**
-```
+#### Structure du projet
+
+```text
 backend/
 ├── Dockerfile
 ├── requirements.txt
@@ -37,6 +36,7 @@ backend/
 ```
 
 **Dockerfile backend** (`backend/Dockerfile`)
+
 ```dockerfile
 FROM python:3.12-slim
 
@@ -60,6 +60,7 @@ CMD ["python3", "app.py"]
 ```
 
 **Points clés** :
+
 - `python:3.12-slim` : image légère
 - Utilisateur non-root : sécurité renforcée (requis par Checkov)
 - `HEALTHCHECK` : permet à Docker/Kubernetes de vérifier l'état du container
@@ -68,6 +69,7 @@ CMD ["python3", "app.py"]
 ### 2.2 Frontend statique
 
 **Dockerfile frontend** (`frontend/Dockerfile`)
+
 ```dockerfile
 FROM python:3.12-slim
 
@@ -88,6 +90,7 @@ CMD ["python3", "-m", "http.server", "5173", "--bind", "0.0.0.0"]
 ```
 
 **Alternative avec Nginx (recommandé en production)** :
+
 ```dockerfile
 FROM nginx:alpine
 
@@ -96,8 +99,6 @@ EXPOSE 80
 
 HEALTHCHECK --interval=30s CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
 ```
-
----
 
 ## 3. Build et test local
 
@@ -133,6 +134,7 @@ docker rmi task-manager:backend
 ### Test multi-containers avec docker-compose
 
 **docker-compose.yml** (à la racine)
+
 ```yaml
 version: '3.8'
 
@@ -167,8 +169,6 @@ docker-compose logs -f
 docker-compose down
 ```
 
----
-
 ## 4. Publication sur Docker Hub
 
 ### 4.1 Ligne de commande
@@ -199,8 +199,6 @@ docker tag task-manager:backend antoinecoulon/task-manager:backend-latest
 docker tag task-manager:backend antoinecoulon/task-manager:backend-${GIT_SHA}
 ```
 
----
-
 ## 5. CI/CD avec GitHub Actions
 
 ### 5.1 Configuration des secrets
@@ -208,6 +206,7 @@ docker tag task-manager:backend antoinecoulon/task-manager:backend-${GIT_SHA}
 **Dans GitHub** : Settings → Secrets and variables → Actions
 
 Ajouter :
+
 - `DOCKER_TOKEN` : token Docker Hub
 - `SNYK_TOKEN` : token Snyk (après inscription sur snyk.io)
 
@@ -355,19 +354,19 @@ jobs:
           tags: antoinecoulon/task-manager:frontend-latest
 ```
 
----
-
 ## 6. Outils de sécurité DevSecOps
 
 ### 6.1 Hadolint (Linter Dockerfile)
 
 **Détecte** :
+
 - Mauvaises pratiques Docker
 - Images obsolètes
 - Commandes dangereuses
 - Optimisations manquées
 
 **Exemple d'erreur courante** :
+
 ```dockerfile
 # ❌ Mauvais
 RUN apt-get update
@@ -380,12 +379,14 @@ RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 ### 6.2 Checkov (Scan IaC)
 
 **Vérifie** :
+
 - Absence d'utilisateur non-root
 - Absence de HEALTHCHECK
 - Secrets hardcodés
 - Configurations non sécurisées
 
 **Corrections type** :
+
 ```dockerfile
 # ❌ Échec Checkov : pas d'utilisateur non-root
 FROM python:3.12
@@ -404,11 +405,13 @@ CMD ["python", "app.py"]
 ### 6.3 Snyk (Vulnérabilités dépendances)
 
 **Analyse** :
+
 - Dépendances Python (requirements.txt)
 - Dépendances Node (package.json)
 - Vulnérabilités CVE connues
 
 **Utilisation locale** :
+
 ```bash
 # Installation
 npm install -g snyk
@@ -422,8 +425,6 @@ snyk test
 # Monitorer en continu
 snyk monitor
 ```
-
----
 
 ## 7. Workflow complet résumé
 
@@ -454,19 +455,19 @@ docker pull antoinecoulon/task-manager:backend-latest
 docker run -d -p 8000:8000 antoinecoulon/task-manager:backend-latest
 ```
 
----
-
 ## 8. Points critiques et optimisations
 
 ### 8.1 Critiques de ton implémentation
 
 **Frontend avec Python HTTP server** :
+
 - ❌ Non adapté pour la production
 - ❌ Pas de gestion MIME types optimale
 - ❌ Pas de cache/compression
 - ✅ Acceptable pour le dev/test
 
 **Recommandation** : Nginx pour la production
+
 ```dockerfile
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
@@ -475,6 +476,7 @@ COPY . /usr/share/nginx/html
 ### 8.2 Multi-stage builds (optimisation)
 
 **Backend optimisé** :
+
 ```dockerfile
 # Stage 1: Build
 FROM python:3.12 AS builder
@@ -516,6 +518,7 @@ environment:
 ### 8.4 Cache Docker
 
 **Ordre optimal des instructions** :
+
 ```dockerfile
 FROM python:3.12-slim
 
@@ -529,8 +532,6 @@ RUN pip install -r requirements.txt
 # 3. Code source en dernier (change souvent)
 COPY . .
 ```
-
----
 
 ## 9. Checklist avant production
 
@@ -573,7 +574,8 @@ docker network inspect bridge   # Détails réseau
 
 **Trivy** : scanner de vulnérabilités open-source pour images Docker, plus complet que Snyk.
 
-### Installation locale
+### Installation locale Trivy
+
 ```bash
 # macOS
 brew install aquasecurity/trivy/trivy
@@ -585,6 +587,7 @@ sudo apt-get update && sudo apt-get install trivy
 ```
 
 ### Utilisation
+
 ```bash
 # Scanner une image locale
 trivy image task-manager:backend
@@ -605,6 +608,7 @@ trivy config backend/Dockerfile
 ### Intégration GitHub Actions
 
 **Ajout au pipeline** (dans `.github/workflows/ci-cd.yaml`)
+
 ```yaml
   Trivy-Scan:
     runs-on: ubuntu-latest
@@ -631,7 +635,7 @@ trivy config backend/Dockerfile
 ### Différences Trivy vs Snyk
 
 | Critère | Trivy | Snyk |
-|---------|-------|------|
+| --------- | ------- | ------ |
 | **Prix** | Gratuit & open-source | Freemium (limité gratuit) |
 | **Scope** | Images, IaC, code, SBOM | Code, dépendances, containers |
 | **Base de données** | Multiple sources CVE | Snyk proprietary DB |
@@ -640,13 +644,10 @@ trivy config backend/Dockerfile
 
 **Recommandation** : Utilise Trivy en complément de Snyk pour double validation.
 
----
-
 ## 12. Pour aller plus loin : docker-compose avancé
 
 ### Structure multi-services complète
 
-**docker-compose.yml**
 ```yaml
 version: '3.8'
 
@@ -753,14 +754,14 @@ networks:
 
 ### Fichier .env pour les secrets
 
-**.env**
-```env
+```text
 DB_PASSWORD=super_secret_password
 API_KEY=your_api_key_here
 REDIS_PASSWORD=redis_secret
 ```
 
 ### Commandes avancées
+
 ```bash
 # Démarrer seulement certains services
 docker-compose up -d db cache
@@ -785,6 +786,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 ### docker-compose.dev.yml (Override développement)
+
 ```yaml
 version: '3.8'
 
@@ -807,7 +809,8 @@ services:
 
 ### Profils pour environnements
 
-**docker-compose.yml avec profils**
+#### docker-compose.yml avec profils
+
 ```yaml
 services:
   # Services toujours actifs
@@ -828,6 +831,7 @@ services:
     ports:
       - "9090:9090"
 ```
+
 ```bash
 # Dev avec adminer
 docker-compose --profile dev up
@@ -837,6 +841,7 @@ docker-compose --profile monitoring up
 ```
 
 ### Healthchecks et dépendances
+
 ```yaml
 services:
   db:
@@ -856,7 +861,8 @@ services:
 
 ### Bonnes pratiques
 
-**1. Isolation réseau**
+#### 1. Isolation réseau
+
 ```yaml
 networks:
   frontend-network:
@@ -875,7 +881,8 @@ services:
       - backend-network  # Non accessible depuis frontend
 ```
 
-**2. Resource limits**
+#### 2. Resource limits
+
 ```yaml
 services:
   backend:
@@ -889,7 +896,8 @@ services:
           memory: 256M
 ```
 
-**3. Restart policies**
+#### 3. Restart policies
+
 ```yaml
 services:
   backend:
@@ -900,25 +908,26 @@ services:
 ```
 
 ### Monitoring avec docker-compose
-```yaml
-  # Prometheus
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090"
 
-  # Grafana
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
-    depends_on:
-      - prometheus
+```yaml
+# Prometheus
+prometheus:
+  image: prom/prometheus
+  volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    - prometheus_data:/prometheus
+  ports:
+    - "9090:9090"
+
+# Grafana
+grafana:
+  image: grafana/grafana
+  ports:
+    - "3000:3000"
+  volumes:
+    - grafana_data:/var/lib/grafana
+  depends_on:
+    - prometheus
 ```
 
 ### Checklist docker-compose production
@@ -931,8 +940,6 @@ services:
 - [ ] Réseaux isolés par couche
 - [ ] Logs centralisés
 - [ ] Backup strategy pour volumes
-
----
 
 ## Ressources
 
