@@ -4,7 +4,7 @@
 
 L'Architecture Clean organise le code en couches concentriques, comme des poupées russes. La règle d'or : **les flèches de dépendance pointent toujours vers l'intérieur**. Les couches internes ne connaissent jamais les couches externes.
 
-## Les couches, du centre vers l'extérieur :
+## Les couches, du centre vers l'extérieur
 
 ### 1. **Entities (Entités)** - Le cœur jaune
 

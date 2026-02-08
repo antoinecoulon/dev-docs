@@ -1,4 +1,4 @@
-<!-- # OOP vs. Data-First
+# OOP vs. Data-First
 
 ## Les Deux Philosophies en Une Phrase
 
@@ -10,9 +10,8 @@
 
 ### OOP Classique
 
-csharp
-
-`public class Compte
+```csharp
+public class Compte
 {
 public decimal Solde { get; private set; }
 
@@ -30,13 +29,13 @@ public decimal Solde { get; private set; }
         }
         return false;
     }
-
 }
 
-_// Utilisation_
+// Utilisation
 var compte = new Compte();
 compte.Deposer(100);
 compte.Retirer(30);`
+```
 
 **Caractéristiques :**
 
@@ -46,28 +45,26 @@ compte.Retirer(30);`
 
 ### Data-First
 
-csharp
-```
-`_// 1. Données pures_
+```csharp
+// 1. Données pures
 public record CompteData(int Id, decimal Solde);
 
-_// 2. Stockage_
+// 2. Stockage
 public class CompteStore
 {
-private Dictionary<int, CompteData> \_comptes = new();
+private Dictionary<int, CompteData> _comptes = new();
 
     public CompteData Obtenir(int id) => _comptes[id];
     public void MettreAJour(CompteData compte) => _comptes[compte.Id] = compte;
-
 }
 
-_// 3. Logique séparée_
+// 3. Logique séparée
 public static class CompteService
 {
-public static CompteData Deposer(CompteData compte, decimal montant)
-{
-return compte with { Solde = compte.Solde + montant };
-}
+    public static CompteData Deposer(CompteData compte, decimal montant)
+    {
+        return compte with { Solde = compte.Solde + montant };
+    }
 
     public static (bool success, CompteData compte) Retirer(
         CompteData compte,
@@ -79,10 +76,9 @@ return compte with { Solde = compte.Solde + montant };
         }
         return (false, compte);
     }
-
 }
 
-_// Utilisation_
+// Utilisation
 var store = new CompteStore();
 var compte = new CompteData(1, 0);
 
@@ -103,188 +99,188 @@ if (success) store.MettreAJour(compteApres);`
 
 **Problème :**
 
-csharp
-
-`public class Client
+```csharp
+public class Client
 {
-public List<Commande> Commandes { get; set; }
+    public List<Commande> Commandes { get; set; }
 }
 
 public class Commande
 {
-public Client Client { get; set; } _// ← Référence inverse_
-public List<Produit> Produits { get; set; }
+    public Client Client { get; set; } // ← Référence inverse
+    public List<Produit> Produits { get; set; }
 }
 
 public class Produit
 {
-public List<Commande> Commandes { get; set; } _// ← Encore des références_
+    public List<Commande> Commandes { get; set; } // ← Encore des références
 }
 
-_// Tu veux UN client, tu obtiens :// Client → Commandes → Produits → Commandes → Clients → ..._`
+// Tu veux UN client, tu obtiens :// Client → Commandes → Produits → Commandes → Clients → ...
+```
 
 **Solution Data-First :**
 
-csharp
-
-`public record ClientData(int Id, string Nom);
+```csharp
+public record ClientData(int Id, string Nom);
 public record CommandeData(int Id, int ClientId, List<int> ProduitIds);
 public record ProduitData(int Id, string Nom, decimal Prix);
 
-_// Pas de références circulaires, juste des IDs_`
+// Pas de références circulaires, juste des IDs
+```
 
 ### 2. Les "Cross-Cutting Concerns"
 
 **Problème :** Où mettre la logique qui concerne plusieurs objets ?
 
-csharp
-
-`_// Combat entre Player et Monster_
+```csharp
+// Combat entre Player et Monster
 public class Player
 {
-public void Hit(Monster monster)
-{
-_// Calcul des dégâts : qui est responsable ?// Gain d'XP : ici ou dans Monster ?// Arme : paramètre ? propriété ?_
-}
+    public void Hit(Monster monster)
+    {
+        // Calcul des dégâts : qui est responsable ?
+        // Gain d'XP : ici ou dans Monster ?
+        // Arme : paramètre ? propriété ?
+    }
 }
 
 public class Monster
 {
-public void TakeDamage(int damage)
-{
-_// Défense appliquée ici ?// Mort du monstre : qui donne l'XP au joueur ?_
+    public void TakeDamage(int damage)
+    {
+        // Défense appliquée ici ?
+        // Mort du monstre : qui donne l'XP au joueur ?
+    }
 }
-}`
+```
 
 **Solution Data-First :**
 
-csharp
-
-`public record Entity(int Id, int HP, int Attack, int Defense);
+```csharp
+public record Entity(int Id, int HP, int Attack, int Defense);
 
 public static class CombatSystem
 {
-_// TOUTE la logique au même endroit_
-public static CombatResult ResoudreCombat(
-Entity attaquant,
-Entity defenseur,
-int bonusArme)
-{
-var degats = Math.Max(1, attaquant.Attack + bonusArme - defenseur.Defense);
-var nouveauHP = defenseur.HP - degats;
-var mort = nouveauHP <= 0;
-var xpGagne = mort ? defenseur.Defense \* 10 : 0;
+    // TOUTE la logique au même endroit_
+    public static CombatResult ResoudreCombat(
+        Entity attaquant,
+        Entity defenseur,
+        int bonusArme)
+    {
+        var degats = Math.Max(1, attaquant.Attack + bonusArme - defenseur.Defense);
+        var nouveauHP = defenseur.HP - degats;
+        var mort = nouveauHP <= 0;
+        var xpGagne = mort ? defenseur.Defense * 10 : 0;
 
         return new CombatResult(degats, mort, xpGagne);
     }
-
-}`
+}
+```
 
 ### 3. L'Encapsulation Schizophrène
 
 **Problème :** Protection inutile au niveau de chaque objet
 
-csharp
-
-`public class Utilisateur
+```csharp
+public class Utilisateur
 {
-private string \_email; _// Privé !_
+    private string _email; // Privé !
 
-    public string GetEmail() => _email;  *// Getter*
-    public void SetEmail(string value)    *// Setter*
+    public string GetEmail() => _email;  // Getter
+    public void SetEmail(string value)    // Setter
     {
         if (!value.Contains("@"))
             throw new ArgumentException();
         _email = value;
     }
-
-}`
+}
+```
 
 C'est comme mettre un cadenas sur ta poche gauche pour protéger de ta main droite.
 
 **Solution Data-First :** Encapsulation au niveau module/service
 
-csharp
-
-`_// Structure publique_
+```csharp
+// Structure publique
 public record UtilisateurData(int Id, string Email);
 
-_// Service avec validation_
+// Service avec validation
 public class UtilisateurService
 {
-private Dictionary<int, UtilisateurData> \_users = new();
+    private Dictionary<int, UtilisateurData> users = new();
 
     public void ModifierEmail(int id, string nouvelEmail)
     {
-        *// Validation centralisée*
+        // Validation centralisée
         if (!nouvelEmail.Contains("@"))
             throw new ArgumentException();
 
         var user = _users[id];
         _users[id] = user with { Email = nouvelEmail };
     }
-
-}`
+}
+```
 
 ### 4. Performance Médiocre
 
 **Problème OOP :** Objets éparpillés en mémoire
 
-csharp
-
-`var objets = new List<GameObject>();
+```csharp
+var objets = new List<GameObject>();
 for (int i = 0; i < 1_000_000; i++)
 {
-objets.Add(new GameObject()); _// Chacun à un endroit différent_
+    objets.Add(new GameObject()); // Chacun à un endroit différent
 }
 
-_// Mise à jour : cache misses partout_
+// Mise à jour : cache misses partout
 foreach (var obj in objets)
 {
-obj.Update(); _// Saute dans toute la mémoire_
-}`
+    obj.Update(); // Saute dans toute la mémoire
+}
+```
 
 **Solution Data-First :** Données contigües
 
-csharp
-
-`public class GameWorld
+```csharp
+public class GameWorld
 {
-private float[] \_positionsX = new float[\_1_000_000];
-private float[] \_positionsY = new float[\_1_000_000];
-private float[] \_velocitiesX = new float[\_1_000_000];
+    private float[] _positionsX = new float[1 000 000];
+    private float[] _positionsY = new float[1 000 000];
+    private float[] _velocitiesX = new float[1 000000];
 
     public void Update(float dt)
     {
-        *// Excellent pour le cache CPU*
+        // Excellent pour le cache CPU
         for (int i = 0; i < _positionsX.Length; i++)
         {
             _positionsX[i] += _velocitiesX[i] * dt;
         }
     }
-
 }
 
-_// Résultat : 10-100x plus rapide_`
+// Résultat : 10-100x plus rapide
+```
 
 ## Quand Utiliser Chaque Approche
 
-### ✅ Utilise OOP quand :
+### Utilise OOP quand
 
 ```text
-SituationExempleInterface utilisateurButton,Window,TextBoxPeu d'objets, beaucoup de comportementWorkflow avec états (commande annulable)Framework l'imposeASP.NET MVC Models, WPF ViewModelsPlugins/ExtensionsArchitecture à base d'interfaces
+Button, Window, TextBox - Peu d'objets, beaucoup de comportement - Workflow avec états (commande annulable)
+
+Framework l'impose - ASP.NET MVC Models, WPF ViewModels Plugins/Extensions - Architecture à base d'interfaces
 ```
 
 **Exemple typique :**
 
-csharp
-
-`_// UI : OOP convient parfaitement_
+```csharp
+// UI : OOP convient parfaitement
 public class LoginViewModel : INotifyPropertyChanged
 {
-public string Username { get; set; }
-public string Password { get; set; }
-public ICommand LoginCommand { get; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public ICommand LoginCommand { get; }
 
     public LoginViewModel(IAuthService authService)
     {
@@ -292,78 +288,78 @@ public ICommand LoginCommand { get; }
             async () => await authService.LoginAsync(Username, Password)
         );
     }
+}
+```
 
-}`
-
-### ✅ Utilise Data-First quand :
+### Utilise Data-First quand
 
 ```text
-SituationExempleBeaucoup de données (>1000 enregistrements)Base de données, cataloguesCalculs/Recherches fréquentsAnalytics, rapportsPerformance critiqueJeux vidéo, trading haute fréquenceDonnées avec multiples représentationsExport CSV/JSON/XMLLogique transversale dominanteSystèmes de règles métier
+Beaucoup de données (>1000 enregistrements) - Base de données, catalogues
+Calculs/Recherches fréquents - Analytics, rapports
+Performance critique - Jeux vidéo, trading haute fréquence
+Données avec multiples représentations - Export CSV/JSON/XML
+Logique transversale dominante - Systèmes de règles métier
 ```
 
 **Exemple typique :**
 
-csharp
-
-`_// Système d'analytics : Data-First idéal_
+```csharp
+// Système d'analytics : Data-First idéal
 public record VenteData(int Id, DateTime Date, decimal Montant, int ProduitId);
 
 public class VenteStore
 {
-private List<VenteData> \_ventes = new();
+    private List<VenteData> _ventes = new();
 
     public void Ajouter(VenteData vente) => _ventes.Add(vente);
     public IEnumerable<VenteData> ObtenirPeriode(DateTime debut, DateTime fin)
         => _ventes.Where(v => v.Date >= debut && v.Date <= fin);
-
 }
 
 public static class AnalyticsService
 {
-public static decimal ChiffreAffaires(VenteStore store, DateTime debut, DateTime fin)
-=> store.ObtenirPeriode(debut, fin).Sum(v => v.Montant);
+    public static decimal ChiffreAffaires(VenteStore store, DateTime debut, DateTime fin)
+        => store.ObtenirPeriode(debut, fin).Sum(v => v.Montant);
 
     public static Dictionary<int, decimal> VentesParProduit(VenteStore store)
         => store.ObtenirPeriode(DateTime.MinValue, DateTime.MaxValue)
                 .GroupBy(v => v.ProduitId)
                 .ToDictionary(g => g.Key, g => g.Sum(v => v.Montant));
-
-}`
+}
+```
 
 ## L'Approche Hybride (La Plus Réaliste)
 
 En pratique, tu combines les deux :
 
-csharp
-
-`_// ===== COUCHE DONNÉES : Data-First =====_
+```csharp
+// ===== COUCHE DONNÉES : Data-First =====
 public record UtilisateurData(int Id, string Email, string Nom);
 public record CommandeData(int Id, int UtilisateurId, decimal Total);
 
 public class DataStore
 {
-private Dictionary<int, UtilisateurData> \_utilisateurs = new();
-private Dictionary<int, CommandeData> \_commandes = new();
-private Dictionary<int, List<int>> \_commandesParUtilisateur = new();
+    private Dictionary<int, UtilisateurData> _utilisateurs = new();
+    private Dictionary<int, CommandeData> _commandes = new();
+    private Dictionary<int, List<int>> _commandesParUtilisateur = new();
 
     public UtilisateurData ObtenirUtilisateur(int id) => _utilisateurs[id];
     public IEnumerable<CommandeData> ObtenirCommandesUtilisateur(int userId)
         => _commandesParUtilisateur[userId].Select(id => _commandes[id]);
-
 }
 
-_// ===== COUCHE MÉTIER : OOP (logique complexe) =====_
+// ===== COUCHE MÉTIER : OOP (logique complexe) =====
 public interface ICommandeService
 {
-Task<int> CreerCommande(int userId, List<int> produitIds);
-Task<bool> AnnulerCommande(int commandeId);
+    Task<int> CreerCommande(int userId, List<int> produitIds);
+    Task<bool> AnnulerCommande(int commandeId);
 }
 
 public class CommandeService : ICommandeService
 {
-private readonly DataStore \_store;
-private readonly IEmailService \_emailService;
-private readonly IPaiementService \_paiementService;
+    private readonly DataStore _store;
+    private readonly IEmailService _emailService;
+    private readonly IPaiementService _paiementService;
 
     public CommandeService(
         DataStore store,
@@ -377,10 +373,11 @@ private readonly IPaiementService \_paiementService;
 
     public async Task<int> CreerCommande(int userId, List<int> produitIds)
     {
-        *// Logique métier complexe avec plusieurs dépendances// OOP convient bien ici*
+        // Logique métier complexe avec plusieurs dépendances
+        // OOP convient bien ici
         var utilisateur = _store.ObtenirUtilisateur(userId);
 
-        *// ... calculs, validations ...*
+        // ... calculs, validations ...
 
         await _paiementService.Traiter(userId, total);
         await _emailService.EnvoyerConfirmation(utilisateur.Email);
@@ -390,16 +387,16 @@ private readonly IPaiementService \_paiementService;
 
     public async Task<bool> AnnulerCommande(int commandeId)
     {
-        *// Orchestration complexe// ...*
+        // Orchestration complexe
+        // ...
         return true;
     }
-
 }
 
-_// ===== COUCHE PRÉSENTATION : OOP (framework) =====_
+// ===== COUCHE PRÉSENTATION : OOP (framework) =====
 public class CommandeController : Controller
 {
-private readonly ICommandeService \_service;
+private readonly ICommandeService _service;
 
     public CommandeController(ICommandeService service)
     {
@@ -416,41 +413,38 @@ private readonly ICommandeService \_service;
 
         return Ok(new { commandeId });
     }
-
 }
-
 ```
 
 ## Règles de Décision Rapides
 
 ### Volume de Données
-```
 
+```text
 < 100 objets → OOP OK
 100 - 10,000 → OOP OK, considère Data-First si beaucoup de calculs
 
 > 10,000 → Data-First fortement recommandé
 > 100,000 → Data-First obligatoire
-
 ```
 
 ### Type d'Opérations
-```
 
+```text
 CRUD simple → OOP (Entity Framework)
 Recherches complexes → Data-First (index, filtres)
 Calculs statistiques → Data-First
 Workflow avec états → OOP
 Temps réel / Performance → Data-First
-
 ```
 
 ### Complexité de la Logique
-```
 
+```text
 Logique par entité → OOP peut convenir
 Logique transversale (calculs) → Data-First
-Mix des deux → Hybride`
+Mix des deux → Hybride
+```
 
 ## Pattern de Migration
 
@@ -458,57 +452,54 @@ Si tu as déjà du code OOP et tu veux passer à Data-First :
 
 ### Étape 1 : Extraire les Données
 
-csharp
-
-`_// Avant_
+```csharp
+// Avant
 public class Produit
 {
-public int Id { get; set; }
-public string Nom { get; set; }
-public decimal Prix { get; set; }
+    public int Id { get; set; }
+    public string Nom { get; set; }
+    public decimal Prix { get; set; }
 
     public decimal CalculerPrixTTC() => Prix * 1.20m;
-
 }
 
-_// Après_
+// Après
 public record ProduitData(int Id, string Nom, decimal Prix);
 
 public static class ProduitService
 {
-public static decimal CalculerPrixTTC(ProduitData produit)
-=> produit.Prix \* 1.20m;
-}`
+    public static decimal CalculerPrixTTC(ProduitData produit) => produit.Prix \* 1.20m;
+}
+```
 
 ### Étape 2 : Remplacer les Références par des IDs
 
-csharp
-
-`_// Avant_
+```csharp
+// Avant
 public class Commande
 {
-public Client Client { get; set; }
-public List<Produit> Produits { get; set; }
+    public Client Client { get; set; }
+    public List<Produit> Produits { get; set; }
 }
 
-_// Après_
+// Après
 public record CommandeData(
-int Id,
-int ClientId, _// ID au lieu de référence_
-List<int> ProduitIds _// IDs au lieu d'objets_
-);`
+    int Id,
+    int ClientId, // ID au lieu de référence
+    List<int> ProduitIds // IDs au lieu d'objets
+);
+```
 
 ### Étape 3 : Créer un Store Centralisé
 
-csharp
-
-`public class ApplicationStore
+```csharp
+public class ApplicationStore
 {
-private Dictionary<int, ClientData> \_clients = new();
-private Dictionary<int, CommandeData> \_commandes = new();
-private Dictionary<int, ProduitData> \_produits = new();
+    private Dictionary<int, ClientData> _clients = new();
+    private Dictionary<int, CommandeData> _commandes = new();
+    private Dictionary<int, ProduitData> _produits = new();
 
-    *// Index pour requêtes rapides*
+    // Index pour requêtes rapides
     private Dictionary<int, List<int>> _commandesParClient = new();
 
     public CommandeData ObtenirCommande(int id) => _commandes[id];
@@ -523,8 +514,8 @@ private Dictionary<int, ProduitData> \_produits = new();
 
         return new CommandeDetailsDto(commande, client, produits);
     }
-
-}`
+}
+```
 
 ## Checklist de Décision
 
@@ -545,12 +536,6 @@ Avant de commencer un projet, demande-toi :
 - [ ] C'est une interface utilisateur ?
 - [ ] J'ai besoin de polymorphisme (plugins) ?
 
-**Si 3+ "oui" Data-First → Data-First**
-
-**Si 3+ "oui" OOP → OOP**
-
-**Si mix → Hybride (données en Data-First, services en OOP)**
-
 ## Résumé en 3 Phrases
 
 1. **OOP** = Données + Comportement ensemble → Bon pour peu d'objets avec logique complexe par objet
@@ -559,42 +544,38 @@ Avant de commencer un projet, demande-toi :
 
 ## Le Piège à Éviter
 
-❌ **Ne fais pas :**
+**Ne fais pas :**
 
-csharp
-
-`_// OOP par habitude sans réflexion_
+```csharp
+// OOP par habitude sans réflexion
 public class VenteJournaliere
 {
-public DateTime Date { get; set; }
-public decimal Montant { get; set; }
+    public DateTime Date { get; set; }
+    public decimal Montant { get; set; }
 
-    *// Méthodes vides ou triviales*
+    // Méthodes vides ou triviales
     public void Afficher()
     {
         Console.WriteLine($"{Date}: {Montant}€");
     }
+}
+```
 
-}`
+**Fais plutôt :**
 
-✅ **Fais plutôt :**
-
-csharp
-
-`_// Data-First : structure simple_
+```csharp
+// Data-First : structure simple
 public record VenteJournaliere(DateTime Date, decimal Montant);
 
-_// Logique séparée et réutilisable_
+// Logique séparée et réutilisable
 public static class VenteFormatter
 {
-public static string Afficher(VenteJournaliere vente)
-=> $"{vente.Date:dd/MM/yyyy}: {vente.Montant:C}";
+    public static string Afficher(VenteJournaliere vente)
+        => $"{vente.Date:dd/MM/yyyy}: {vente.Montant:C}";
 
     public static string AfficherJSON(VenteJournaliere vente)
         => JsonSerializer.Serialize(vente);
+}
+```
 
-}`
-
----
-
-**En résumé :** Réfléchis à tes **données** d'abord (volume, structure, opérations), puis choisis l'approche adaptée. Ne fais pas de l'OOP par défaut ! -->
+**En résumé :** Réfléchis à tes **données** d'abord (volume, structure, opérations), puis choisis l'approche adaptée. Ne fais pas de l'OOP par défaut !

@@ -17,6 +17,14 @@ export default defineConfig({
         items: [
           { text: "Index", link: "/docs-index" },
           {
+            text: "Architecture",
+            link: "/architecture/architecture"
+          },
+          {
+            text: "Design Patterns",
+            link: "/design-patterns/design-patterns"
+          },
+          {
             text: "Technologies",
             items: [
               {
@@ -44,14 +52,6 @@ export default defineConfig({
           {
             text: "Sécurité",
             link: "/security/security"
-          },
-          {
-            text: "Architecture",
-            link: "/architecture/architecture"
-          },
-          {
-            text: "Design Patterns",
-            link: "/design-patterns/design-patterns"
           },
           {
             text: "Déploiement",
