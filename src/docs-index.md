@@ -14,6 +14,7 @@
 ---
 
 - [Déploiement](./deploy/deploy)
+- [Automatisation](./automatisation/automatisation)
 - [Gestion de projet](./gestion-projet/gestion-projet)
 - [Git](./git/git)
 - [Sécurité](./security/security)

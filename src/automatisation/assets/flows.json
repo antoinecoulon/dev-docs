@@ -1,0 +1,1292 @@
+[
+    {
+        "id": "7c955a3667a382d3",
+        "type": "tab",
+        "label": "Veille tech",
+        "disabled": false,
+        "info": "[Inject - Cron 1x/jour]\n    ↓\n[Function - Sources RSS] → retourne un msg par source\n    ↓\n[HTTP Request - GET RSS]\n    ↓\n[XML Converter] → un msg par article\n    ↓\n[Function - Préparer article]\n    ↓\n[Function - Anti-doublon] → null si déjà vu\n    ↓\n[Delay - Rate limit 1msg/2s]\n    ↓\n[Function - Requête Mistral]\n    ↓\n[HTTP Request - POST Mistral API]\n    ↓\n[Function - Parser réponse]\n    ↓\n[Switch - Score >= 3 ?]\n    ├── Oui → [Function - Stockage JSON] → [Debug]\n    └── Non → [Debug - ignoré]",
+        "env": []
+    },
+    {
+        "id": "25549a8491d96cb3",
+        "type": "tab",
+        "label": "Dashboard - Veille tech",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b55e04c44ac4e1d1",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "c4ac57403b2d1a55",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#46264f",
+            "primary": "#754c9e",
+            "bgPage": "#5c2470",
+            "groupBg": "#46264f",
+            "groupOutline": "#c905ff"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "987aae6f44b8c785",
+        "type": "ui-page",
+        "name": "Veille Tech",
+        "ui": "b55e04c44ac4e1d1",
+        "path": "",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "c4ac57403b2d1a55",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "98630fdc184d8c16",
+        "type": "ui-group",
+        "name": "Articles",
+        "page": "987aae6f44b8c785",
+        "width": "19",
+        "height": "22",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "06e6d2a3a58358e2",
+        "type": "ui-group",
+        "name": "Filtres",
+        "page": "987aae6f44b8c785",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "55add633daa5d70e",
+        "type": "ui-page",
+        "name": "Statistiques",
+        "ui": "b55e04c44ac4e1d1",
+        "path": "/stats",
+        "icon": "chart-box",
+        "layout": "grid",
+        "theme": "c4ac57403b2d1a55",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "c06791f4ef91e705",
+        "type": "ui-group",
+        "name": "Statistiques",
+        "page": "55add633daa5d70e",
+        "width": "12",
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "11782798ed4d4824",
+        "type": "inject",
+        "z": "7c955a3667a382d3",
+        "name": "Cron",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "43200",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 450,
+        "y": 180,
+        "wires": [
+            [
+                "f7ef9393fd96b908"
+            ]
+        ]
+    },
+    {
+        "id": "f7ef9393fd96b908",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Sources RSS",
+        "func": "const sources = [\n    { name: \"dev.to\", url: \"https://dev.to/feed\" },\n    { name: \"Medium\", url: \"https://medium.com/feed/@a.antoinecoulon\" },\n    { name: \"Martin Fowler's blog\", url: \"https://martinfowler.com/feed.atom\" }, \n    { name: \"InfoQArchitecture\", url: \"https://www.infoq.com/architecture-design/rss\" },\n    { name: \"GitHubBlog\", url: \"https://github.blog/feed\" }, \n    { name: \"StackOverflow Blog\", url: \"https://stackoverflow.blog/feed\" }, \n    { name: \"AWS Architecture Blog\", url: \"https://aws.amazon.com/blogs/architecture/feed\" },\n    { name: \"Google Cloud Blog\", url: \"https://cloud.google.com/blog/rss\" },\n    { name: \"CNCF Blog\", url: \"https://www.cncf.io/feed\" },\n    { name: \"OWASP Blog\", url: \"https://owasp.org/blog/feed.xml\" },\n    { name: \"Troy Hunt\", url: \"https://www.troyhunt.com/rss\" },\n    { name: \"Google AI Blog\", url: \"https://blog.research.google/feeds/posts/default\" },\n]\n\nreturn [sources.map((source) => ({\n    url: source.url,\n    sourceName: source.name\n}))];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 240,
+        "wires": [
+            [
+                "98e12b40379286ac"
+            ]
+        ]
+    },
+    {
+        "id": "98e12b40379286ac",
+        "type": "http request",
+        "z": "7c955a3667a382d3",
+        "name": "Get rss feed",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 670,
+        "y": 300,
+        "wires": [
+            [
+                "6de96d86cff90657"
+            ]
+        ]
+    },
+    {
+        "id": "88ebd33186fd6ed8",
+        "type": "xml",
+        "z": "7c955a3667a382d3",
+        "name": "Conversion XML > JS",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 740,
+        "y": 380,
+        "wires": [
+            [
+                "8d92a190a80f00cb"
+            ]
+        ]
+    },
+    {
+        "id": "8d92a190a80f00cb",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Extraire articles",
+        "func": "let items = []\n\ntry {\n    if (msg.payload.rss) {\n        items = msg.payload.rss.channel[0].item || []\n    } else if (msg.payload.feed) {\n        items = msg.payload.feed.entry || []\n    } else {\n        node.warn(\"Format RSS non reconnu pour \" + msg.sourceName);\n    }\n} catch (e) {\n    node.warn(\"Erreur d'extraction: \" + e.message);\n    return null\n}\n\nreturn [items.map(item => ({\n    payload: item,\n    sourceName: msg.sourceName\n}))]",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 440,
+        "wires": [
+            [
+                "d2a31c2cb24539d0"
+            ]
+        ]
+    },
+    {
+        "id": "d2a31c2cb24539d0",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Préparer articles",
+        "func": "const item = msg.payload;\n\nconst getString = (val) => {\n    if (val === null || val === undefined) return \"\"\n    if (typeof val === \"string\") return val\n    if (Array.isArray(val)) return getString(val[0])\n    if (typeof val === \"object\") {\n        if (val._) return val._\n        if (val.$t) return val.$t\n        return JSON.stringify(val)\n    }\n    return String(val)\n}\n\nconst getLink = (val) => {\n    if (val === null || val === undefined) return \"\";\n    if (typeof val === \"string\") return val;\n    if (Array.isArray(val)) {\n        for (const item of val) {\n            if (typeof item === \"string\") return item;\n            if (item && item.$ && item.$.rel === \"alternate\" && item.$.href) return item.$.href;\n        }\n        for (const item of val) {\n            if (item && item.$ && item.$.href) return item.$.href;\n        }\n        return getString(val[0]);\n    }\n    if (typeof val === \"object\" && val.$ && val.$.href) return val.$.href;\n    return getString(val);\n}\n\nmsg.article = {\n    title: getString(item.title),\n    description: getString(item.description || item.summary || item.content || []),\n    link: getLink(item.link),\n    date: (getString(item.pubDate || item.published || item.updated || [])),\n    source: msg.sourceName || \"Inconnue\"\n}\n\nif (msg.article.description.length > 2000) {\n    msg.article.description = msg.article.description.substring(0, 2000) + \"...\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 500,
+        "wires": [
+            [
+                "bc4605cb7a586ecf",
+                "e3134b9d1c44edfa"
+            ]
+        ]
+    },
+    {
+        "id": "bc4605cb7a586ecf",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "article",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "e3134b9d1c44edfa",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Filtrer doublons",
+        "func": "const fs = global.get('fs')\nconst FILE = '/home/antoinecoulon/dev/projects/veille-tech/data/articles.json'\n\nlet existing = []\ntry {\n    if (fs.existsSync(FILE)) {\n        existing = JSON.parse(fs.readFileSync(FILE, 'utf8'))\n    }\n} catch (e) {\n    node.warn(\"Erreur lecture de fichier: \" + e.message);\n    existing = []\n}\n\nconst isDuplicate = existing.some(a => a.link === msg.article.link)\n\nif (isDuplicate) {\n    node.status({fill:\"yellow\",shape:\"ring\",text:\"doublon ignoré\"});\n    return null\n}\n\nmsg.dataFilePath = FILE;\nnode.status({fill:\"green\",shape:\"ring\",text:\"nouvel article\"});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 560,
+        "wires": [
+            [
+                "a76cbb35588d6c2d",
+                "ca606e87dce6dd75"
+            ]
+        ]
+    },
+    {
+        "id": "a76cbb35588d6c2d",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "ca606e87dce6dd75",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Requête Mistral",
+        "func": "const apiKey = global.get(\"MISTRAL_API_KEY\")\n\nif (!apiKey) {\n    node.error(\"Clé API Mistral non configurée ou introuvable\");\n    return null\n}\n\nmsg.url = \"https://api.mistral.ai/v1/chat/completions\"\nmsg.headers = {\n    \"Authorization\": \"Bearer \" + apiKey,\n    \"Content-Type\": \"application/json\"\n}\n\nmsg.payload = {\n    model: \"mistral-small-latest\",\n    response_format: { type: \"json_object\" },\n    messages: [\n        {\n            role: \"system\",\n            content: `Tu es un assistant de veille technologique. Tu analyses des articles tech et tu réponds UNIQUEMENT en JSON valide avec cette structure exacte :\n            {\n            \"resume\": \"2-3 phrases de résumé\",\n            \"categorie\": \"PERSO ou PRO ou LES_DEUX ou HORS_SCOPE\",\n            \"score\": 3,\n            \"tags\": [\"tag1\", \"tag2\", \"tag3\"],\n            \"lien\": \"lien vers l'article complet\",\n            }\n\n            Règles de classification :\n            - PERSO : projets personnels, side projects, techno fun, apprentissage\n            - PRO : pertinent pour le travail en entreprise, DevOps, bonnes pratiques\n            - LES_DEUX : applicable aux deux contextes\n            - HORS_SCOPE : pas lié au développement/tech\n\n            Score de 1 à 5 (sois strict, la majorité des articles doivent être entre 1 et 3) :\n            - 1 : contenu générique, déjà connu\n            - 2 : légèrement intéressant mais pas actionnable\n            - 3 : utile, apporte une info concrète applicable\n            - 4 : très pertinent, nouvelle approche ou outil à tester\n            - 5 : exceptionnel, change une pratique ou résout un problème actif\n            \n            L'utilisateur est un développeur débutant en C#/.NET, React Native et Nuxt.\n            Privilégie les articles sur les architectures avancées, les nouveautés récentes, les tutoriels/guides bien construits et les retours d'expérience production.`\n        },\n        {\n            role: \"user\",\n            content: `Analyse cet article :\\n\\nTitre:${msg.article.title}\\n\\nContenu:${msg.article.description}`\n        }\n    ],\n    temperature: 0.3\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 640,
+        "wires": [
+            [
+                "40c76fa00c153811"
+            ]
+        ]
+    },
+    {
+        "id": "b22a07b6aae19de7",
+        "type": "http request",
+        "z": "7c955a3667a382d3",
+        "name": "Appel API Mistral",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 750,
+        "y": 700,
+        "wires": [
+            [
+                "1b9b5e2a18cfe703"
+            ]
+        ]
+    },
+    {
+        "id": "1b9b5e2a18cfe703",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Parser réponse Mistral",
+        "func": "try {\n    const content = msg.payload.choices[0].message.content\n\n    const analysis = JSON.parse(content)\n\n    msg.enriched = {\n        ...msg.article,\n        resume: analysis.resume || \"Pas de résumé\",\n        categorie: analysis.categorie || \"HORS_SCOPE\",\n        score: Number(analysis.score) || 1,\n        tags: Array.isArray(analysis.tags) ? analysis.tags : [],\n        analyzedAt: new Date().toISOString()\n    }\n\n    node.status({\n        fill: \"green\",\n        shape: \"dot\",\n        text: `${msg.enriched.categorie} - ${msg.enriched.score}/5`\n    })\n\n    return msg\n} catch (e) {\n    node.error(\"Erreur parsing Mistral: \" + e.message, msg);\n    node.status({fill:\"red\",shape:\"ring\",text:\"erreur parsing\"});\n}\n\nmsg.enriched = {\n    ...msg.article,\n    resume: \"Erreur d'analyse\",\n    categorie: \"ERREUR\",\n    score: 0,\n    tags: [],\n    analyzedAt: new Date().toISOString()\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 760,
+        "wires": [
+            [
+                "d288e07b3aa23453",
+                "a6b8ae668bc108f1"
+            ]
+        ]
+    },
+    {
+        "id": "40c76fa00c153811",
+        "type": "delay",
+        "z": "7c955a3667a382d3",
+        "name": "Rate limiter",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "2",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 550,
+        "y": 700,
+        "wires": [
+            [
+                "b22a07b6aae19de7"
+            ]
+        ]
+    },
+    {
+        "id": "d288e07b3aa23453",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "a6b8ae668bc108f1",
+        "type": "switch",
+        "z": "7c955a3667a382d3",
+        "name": "Filtrer par score",
+        "property": "enriched.score",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "3",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 520,
+        "y": 840,
+        "wires": [
+            [
+                "0f411fed11f6ccd3"
+            ],
+            [
+                "dc85f452848e4790"
+            ]
+        ]
+    },
+    {
+        "id": "0f411fed11f6ccd3",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Stocker JSON",
+        "func": "const fs = global.get('fs')\nconst FILE = msg.dataFile || '/home/antoinecoulon/dev/projects/veille-tech/data/articles.json'\n\nlet data = []\ntry {\n    if (fs.existsSync(FILE)) {\n        data = JSON.parse(fs.readFileSync(FILE, 'utf8'))\n    }\n} catch (e) {\n    node.warn(\"Fichier corrompu, reset: \" + e.message);\n    data = []\n}\n\ndata.push({\n    id: Date.now(),\n    title: msg.enriched.title,\n    link: msg.enriched.link,\n    source: msg.enriched.source,\n    date: msg.enriched.date,\n    resume: msg.enriched.resume,\n    categorie: msg.enriched.categorie,\n    score: msg.enriched.score,\n    tags: msg.enriched.tags,\n    analyzedAt: msg.enriched.analyzedAt,\n    lu: false\n})\n\ntry {\n    fs.writeFileSync(FILE, JSON.stringify(data, null, 2), 'utf8')\n    node.status({\n        fill: \"green\",\n        shape: \"dot\",\n        text: `${data.length} articles stockés`\n    })\n} catch (e) {\n    node.error(\"Erreur écriture: \" + e.message, msg);\n    node.status({fill:\"red\",shape:\"ring\",text:\"erreur écriture\"});\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 840,
+        "wires": [
+            [
+                "056fca1e03865453",
+                "33dfcd7e75da1375",
+                "e0cec62918e6243b"
+            ]
+        ]
+    },
+    {
+        "id": "dc85f452848e4790",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "Articles jetés",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "056fca1e03865453",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Log résultat",
+        "func": "node.status({\n    fill:\"blue\",\n    shape:\"dot\",\n    text:`${msg.enriched.title.substring(0, 30)}... -> ${msg.enriched.score}/5` || \"Erreur log\"});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 840,
+        "wires": [
+            [
+                "740272e9bb39546a"
+            ]
+        ]
+    },
+    {
+        "id": "740272e9bb39546a",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "FIN",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "6de96d86cff90657",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Nettoyer XML",
+        "func": "if (typeof msg.payload === 'string') {\n    // & non encodés\n    msg.payload = msg.payload.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\\d+;|#x[0-9a-fA-F]+;)/g, '&amp;');\n    // < non encodés dans le contenu (pas les balises)\n    msg.payload = msg.payload.replace(/<(?![/!?\\w])/g, '&lt;');\n    // Attributs sans valeur (ex: <tag disabled> → <tag disabled=\"disabled\">)\n    msg.payload = msg.payload.replace(/<([a-zA-Z][^>]*?)(\\s[a-zA-Z-]+)(?=[\\s>])(?!=)/g, '<$1$2=\"$2\"');\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 300,
+        "wires": [
+            [
+                "88ebd33186fd6ed8"
+            ]
+        ]
+    },
+    {
+        "id": "33dfcd7e75da1375",
+        "type": "switch",
+        "z": "7c955a3667a382d3",
+        "name": "Filtre >= 4",
+        "property": "enriched.score",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "4",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 980,
+        "wires": [
+            [
+                "8146adb69f9808d0"
+            ]
+        ]
+    },
+    {
+        "id": "8146adb69f9808d0",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Accumuler articles",
+        "func": "let batch = flow.get(\"emailBatch\") || []\n\nbatch.push({\n    title: msg.enriched.title,\n    source: msg.enriched.source,\n    score: msg.enriched.score,\n    resume: msg.enriched.resume,\n    link: msg.enriched.link,\n    categorie: msg.enriched.categorie,\n    tags: msg.enriched.tags\n})\n\nflow.set(\"emailBatch\", batch)\nnode.status({fill:\"blue\",shape:\"dot\",text:batch.length + \" articles en attente\"});\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1108dc86da5053bf",
+        "type": "function",
+        "z": "7c955a3667a382d3",
+        "name": "Générer email",
+        "func": "const batch = flow.get(\"emailBatch\")\n\nif (!batch || !Array.isArray(batch) || batch.length === 0) {\n    node.status({fill:\"yellow\",shape:\"ring\",text:\"rien à envoyer\"});\n    return null\n}\n\nconst date = new Date().toLocaleDateString('fr-FR')\n\nlet html = `<h2>Veille Tech - ${date}</h2>`\nhtml += `<p>${batch.length} article(s) score 4-5</p><hr>`\n\nbatch.forEach(a => {\n    html += `\n    <div style=\"margin-bottom: 20px;\">\n        <h3><a href=\"${a.link}\">${a.title}</a></h3>\n        <p><strong>${a.source}</strong> | ${a.categorie} | Score: ${\"⭐\".repeat(a.score)}</p>\n        <p>${a.resume}</p>\n        <p style=\"color: #666; font-size: 12px;\">Tags: ${Array.isArray(a.tags) ? a.tags.join(', ') : a.tags}</p>\n    </div>`;\n});\n\nflow.set(\"emailBatch\", [])\nnode.status({fill:\"green\",shape:\"dot\",text:batch.length + \" envoyés\"});\n\nreturn {\n    to: \"a.antoinecoulon@gmail.com\",\n    topic: `Veille Tech — ${batch.length} article(s) à lire — ${date}`,\n    payload: html\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 1040,
+        "wires": [
+            [
+                "bc5b4764b3478253"
+            ]
+        ]
+    },
+    {
+        "id": "bc5b4764b3478253",
+        "type": "e-mail",
+        "z": "7c955a3667a382d3",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "Envoyer email",
+        "x": 1040,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "25f6a17733491a34",
+        "type": "catch",
+        "z": "7c955a3667a382d3",
+        "name": "Catch conversion errors",
+        "scope": [
+            "88ebd33186fd6ed8"
+        ],
+        "uncaught": false,
+        "x": 980,
+        "y": 380,
+        "wires": [
+            [
+                "5e41c6e8a8174996"
+            ]
+        ]
+    },
+    {
+        "id": "5e41c6e8a8174996",
+        "type": "debug",
+        "z": "7c955a3667a382d3",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "e0cec62918e6243b",
+        "type": "trigger",
+        "z": "7c955a3667a382d3",
+        "name": "Debounce",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "payl",
+        "duration": "120",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 650,
+        "y": 1040,
+        "wires": [
+            [
+                "1108dc86da5053bf"
+            ]
+        ]
+    },
+    {
+        "id": "1a541913974c8f55",
+        "type": "function",
+        "z": "25549a8491d96cb3",
+        "name": "Charger article",
+        "func": "const fs = global.get('fs')\nconst FILE = \"/home/antoinecoulon/dev/projects/veille-tech/data/articles.json\"\n\nlet articles = []\n\ntry {\n    const raw = fs.readFileSync(FILE, 'utf8')\n    articles = JSON.parse(raw)\n} catch (e) {\n    node.error(\"Erreur de lecture: \" + e.message, msg);\n}\n\narticles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())\n\nmsg.payload = articles\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 320,
+        "wires": [
+            [
+                "0d7e5e1c35eee0e4",
+                "090a6c3618d79cbe"
+            ]
+        ]
+    },
+    {
+        "id": "ab05e2a56b1eb68d",
+        "type": "inject",
+        "z": "25549a8491d96cb3",
+        "name": "Auto-refresh",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 80,
+        "y": 260,
+        "wires": [
+            [
+                "1a541913974c8f55"
+            ]
+        ]
+    },
+    {
+        "id": "ff763f87845faaa3",
+        "type": "ui-event",
+        "z": "25549a8491d96cb3",
+        "ui": "b55e04c44ac4e1d1",
+        "name": "",
+        "x": 90,
+        "y": 320,
+        "wires": [
+            [
+                "1a541913974c8f55"
+            ]
+        ]
+    },
+    {
+        "id": "651afc4bb4a0775c",
+        "type": "ui-table",
+        "z": "25549a8491d96cb3",
+        "group": "98630fdc184d8c16",
+        "name": "Articles",
+        "label": "",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "maxrows": "50",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Score",
+                "key": "score",
+                "keyType": "key",
+                "type": "text",
+                "width": "60px",
+                "align": "start"
+            },
+            {
+                "title": "Cat.",
+                "key": "categorie",
+                "keyType": "key",
+                "type": "text",
+                "width": "80px",
+                "align": "start"
+            },
+            {
+                "title": "Titre",
+                "key": "title",
+                "keyType": "key",
+                "type": "text",
+                "width": "300px",
+                "align": "start"
+            },
+            {
+                "title": "Source",
+                "key": "source",
+                "keyType": "key",
+                "type": "text",
+                "width": "100px",
+                "align": "start"
+            },
+            {
+                "title": "Résumé",
+                "key": "resume",
+                "keyType": "key",
+                "type": "text",
+                "width": "auto",
+                "align": "start"
+            },
+            {
+                "title": "Date",
+                "key": "date",
+                "keyType": "key",
+                "type": "text",
+                "width": "120px",
+                "align": "start"
+            }
+        ],
+        "mobileBreakpoint": "lg",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 640,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0d7e5e1c35eee0e4",
+        "type": "function",
+        "z": "25549a8491d96cb3",
+        "name": "Formater",
+        "func": "msg.payload = msg.payload.map(article => ({\n    score: \"⭐\".repeat(article.score || 0),\n    categorie: article.categorie,\n    title: typeof article.title === \"object\"\n        ? article.title._\n        : article.title,\n    source: article.source,\n    resume: article.resume || \"\",\n    date: new Date(article.date).toLocaleDateString('fr-FR'),\n    link: article.link,\n    tags: Array.isArray(article.tags) ? article.tags.join(', ') : ''\n}))\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 320,
+        "wires": [
+            [
+                "651afc4bb4a0775c",
+                "6147a3e8f11b3a72"
+            ]
+        ]
+    },
+    {
+        "id": "6147a3e8f11b3a72",
+        "type": "debug",
+        "z": "25549a8491d96cb3",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "21dc0bd5a7157573",
+        "type": "inject",
+        "z": "25549a8491d96cb3",
+        "name": "Debug",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[{\"title\": \"Test\", \"score\": \"3\"}]",
+        "payloadType": "json",
+        "x": 110,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "090a6c3618d79cbe",
+        "type": "function",
+        "z": "25549a8491d96cb3",
+        "name": "Calculer stats",
+        "func": "const articles = msg.payload\n\nconst stats = {\n    total: articles.length,\n    parCategorie: {},\n    parSource: {},\n    scoreMoyen: 0,\n    nonLus: articles.filter(a => !a.lu).length\n}\n\nlet totalScore = 0\n\narticles.forEach(a => {\n    const cat = a.categorie || \"Inconnue\"\n    stats.parCategorie[cat] = (stats.parCategorie[cat] || 0) + 1\n\n    const src = a.source || \"Inconnue\"\n    stats.parSource[src] = (stats.parSource[src] || 0) + 2\n\n    totalScore += (a.score || 0)\n})\n\nstats.scoreMoyen = articles.length > 0\n    ? (totalScore / articles.length).toFixed(1)\n    : 0\n\nconst msgStats = {\n    payload: `${stats.total} articles | ${stats.nonLus} non lus | Score moyen: ${stats.scoreMoyen}/5`\n}\n\nconst msgCategories = {\n    payload: Object.entries(stats.parCategorie).map(([label, value]) => ({\n        x: label,\n        y: value\n    }))\n}\n\nconst msgSources = {\n    payload: Object.entries(stats.parSource).map(([label, value]) => ({\n        x: label,\n        y: value\n    }))\n}\n\nreturn [msgStats, msgCategories, msgSources];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "183c1a7a6a6996ee"
+            ],
+            [
+                "6cce5f9162d9e7d7"
+            ],
+            [
+                "d03979cd3256d432",
+                "22cab04d90e7df2c"
+            ]
+        ]
+    },
+    {
+        "id": "183c1a7a6a6996ee",
+        "type": "ui-text",
+        "z": "25549a8491d96cb3",
+        "group": "c06791f4ef91e705",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Résumé stats",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 620,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "22cab04d90e7df2c",
+        "type": "debug",
+        "z": "25549a8491d96cb3",
+        "name": "debug 5",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "6cce5f9162d9e7d7",
+        "type": "ui-chart",
+        "z": "25549a8491d96cb3",
+        "group": "c06791f4ef91e705",
+        "name": "Graphique catégories",
+        "label": "Par catégorie",
+        "order": 2,
+        "chartType": "bar",
+        "category": "",
+        "categoryType": "none",
+        "xAxisLabel": "Catégorie",
+        "xAxisProperty": "x",
+        "xAxisPropertyType": "property",
+        "xAxisType": "category",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Total",
+        "yAxisProperty": "y",
+        "yAxisPropertyType": "property",
+        "ymin": "0",
+        "ymax": "",
+        "bins": 10,
+        "action": "replace",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 640,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d03979cd3256d432",
+        "type": "ui-chart",
+        "z": "25549a8491d96cb3",
+        "group": "c06791f4ef91e705",
+        "name": "Graphique sources",
+        "label": "Par source",
+        "order": 3,
+        "chartType": "doughnut",
+        "category": "",
+        "categoryType": "none",
+        "xAxisLabel": "",
+        "xAxisProperty": "x",
+        "xAxisPropertyType": "property",
+        "xAxisType": "radial",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "y",
+        "yAxisPropertyType": "property",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "replace",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 630,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b261111a1d80f087",
+        "type": "ui-dropdown",
+        "z": "25549a8491d96cb3",
+        "group": "06e6d2a3a58358e2",
+        "name": "Filtre catégorie",
+        "label": "Catégorie:",
+        "tooltip": "",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "Toutes",
+                "value": "ALL",
+                "type": "str"
+            },
+            {
+                "label": "Perso",
+                "value": "PERSO",
+                "type": "str"
+            },
+            {
+                "label": "Pro",
+                "value": "PRO",
+                "type": "str"
+            },
+            {
+                "label": "Les deux",
+                "value": "LES_DEUX",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "categorie",
+        "topicType": "str",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 280,
+        "y": 120,
+        "wires": [
+            [
+                "3bee09cb2d1b3a23"
+            ]
+        ]
+    },
+    {
+        "id": "f493d8ae3331e898",
+        "type": "ui-dropdown",
+        "z": "25549a8491d96cb3",
+        "group": "06e6d2a3a58358e2",
+        "name": "Filtre score",
+        "label": "Score:",
+        "tooltip": "",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "multiple": false,
+        "chips": false,
+        "clearable": false,
+        "options": [
+            {
+                "label": "Tous",
+                "value": 0,
+                "type": "num"
+            },
+            {
+                "label": "≥ 3",
+                "value": 3,
+                "type": "num"
+            },
+            {
+                "label": "≥ 4",
+                "value": 4,
+                "type": "num"
+            },
+            {
+                "label": "= 5",
+                "value": 5,
+                "type": "num"
+            }
+        ],
+        "payload": "",
+        "topic": "score",
+        "topicType": "str",
+        "className": "",
+        "typeIsComboBox": true,
+        "msgTrigger": "onChange",
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "3bee09cb2d1b3a23"
+            ]
+        ]
+    },
+    {
+        "id": "3bee09cb2d1b3a23",
+        "type": "function",
+        "z": "25549a8491d96cb3",
+        "name": "Appliquer filtres",
+        "func": "if (msg.topic === \"categorie\") {\n    flow.set(\"filtreCategorie\", msg.payload)\n} else if (msg.topic === \"score\") {\n    flow.set(\"filtreScore\", Number(msg.payload))\n}\n\nconst fs = global.get('fs')\nconst FILE = \"/home/antoinecoulon/dev/projects/veille-tech/data/articles.json\"\n\nlet articles = []\ntry {\n    articles = JSON.parse(fs.readFileSync(FILE, 'utf8'))\n} catch (e) {\n    return null;\n}\n\nconst catFiltre = flow.get(\"filtreCategorie\") || \"ALL\"\nconst scoreFiltre = flow.get(\"filtreScore\") || 0\n\narticles = articles.filter(article => {\n    if (catFiltre !== \"ALL\" && article.categorie !== catFiltre) return false\n    if ((article.score || 0) < scoreFiltre) return false\n    return true\n})\n\narticles.sort((a, b) => new Date(b.date).getDate() - new Date(a.date).getDate())\n\nmsg.payload = articles\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "0d7e5e1c35eee0e4"
+            ]
+        ]
+    },
+    {
+        "id": "04b54f8377fcc71c",
+        "type": "ui-button",
+        "z": "25549a8491d96cb3",
+        "group": "06e6d2a3a58358e2",
+        "name": "Rafraîchir",
+        "label": "Rafraîchir",
+        "order": 1,
+        "width": "2",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "refresh",
+        "iconPosition": "right",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 240,
+        "y": 240,
+        "wires": [
+            [
+                "1a541913974c8f55"
+            ]
+        ]
+    },
+    {
+        "id": "90f8cb4f7ae53eb8",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2",
+            "node-red-node-email": "5.1.0"
+        }
+    }
+]

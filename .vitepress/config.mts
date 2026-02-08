@@ -58,6 +58,10 @@ export default defineConfig({
             link: "/deploy/deploy"
           },
           {
+            text: "Automatisation",
+            link: "/automatisation/automatisation"
+          },
+          {
             text: "Gestion de projet",
             link: "/gestion-projet/gestion-projet"
           },
