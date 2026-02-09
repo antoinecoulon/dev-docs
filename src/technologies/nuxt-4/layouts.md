@@ -1,6 +1,6 @@
 # Layouts (+ Dashboard)
 
-### Concept des Layouts
+## Concept des Layouts
 
 Un layout wrap plusieurs pages avec une structure commune. Parfait pour :
 
@@ -64,7 +64,7 @@ Appliqué automatiquement si aucun layout n'est spécifié.
 </template>
 ```
 
-### Appliquer un layout à une page
+## Appliquer un layout à une page
 
 ```tsx
 <!-- app/pages/dashboard/index.vue -->
@@ -82,7 +82,7 @@ definePageMeta({
 </template>
 ```
 
-### Slots nommés dans les layouts
+## Slots nommés dans les layouts
 
 ```tsx
 <!-- Page utilisant le slot header -->
@@ -105,7 +105,7 @@ definePageMeta({
 </template>
 ```
 
-### Composants Dashboard avec Nuxt UI
+## Composants Dashboard avec Nuxt UI
 
 **Navigation sidebar :**
 
@@ -220,7 +220,7 @@ defineProps<{
 </div>
 ```
 
-### Layout dynamique
+## Layout dynamique
 
 Changer de layout selon une condition :
 
@@ -241,7 +241,7 @@ definePageMeta({
 </template>
 ```
 
-### Transitions entre layouts
+## Transitions entre layouts
 
 ```tsx
 // nuxt.config.ts
@@ -265,7 +265,7 @@ export default defineNuxtConfig({
 }
 ```
 
-### Bonnes pratiques Layouts
+## Bonnes pratiques Layouts
 
 1. **Un layout = une structure**, pas de logique métier
 2. **Utilise les slots nommés** pour les zones variables (header, actions)
@@ -273,9 +273,9 @@ export default defineNuxtConfig({
 4. **Limite à 2-3 layouts** : `default`, `dashboard`, `auth` suffisent généralement
 5. **Responsive first** : teste sur mobile dès le début
 
-### Structure recommandée pour un dashboard
+## Structure recommandée pour un dashboard
 
-```
+```text
 app/
 ├── layouts/
 │   ├── default.vue        # Pages publiques

@@ -1,6 +1,6 @@
 # SSR vs SPA : Choix et Implications
 
-### Tableau comparatif
+## Tableau comparatif
 
 | Aspect | SSR | SPA |
 | --- | --- | --- |
@@ -10,7 +10,7 @@
 | Complexité | ⚠️ Hydratation, état serveur/client | ✅ Simple |
 | Cas d'usage | Sites publics, e-commerce, blogs | Dashboards, apps internes |
 
-### Configuration
+## Configuration
 
 **SSR (défaut) :**
 
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 
 ### Ce que SSR implique dans ton code
 
-**1. Le code s'exécute côté serveur ET client**
+#### 1. Le code s'exécute côté serveur ET client
 
 ```tsx
 // ❌ Erreur : window n'existe pas côté serveur
@@ -60,7 +60,7 @@ onMounted(() => {
 })
 ```
 
-**2. L'état doit être cohérent entre serveur et client**
+#### 2. L'état doit être cohérent entre serveur et client
 
 ```tsx
 // ❌ Erreur : Hydration mismatch
@@ -70,7 +70,7 @@ const id = Math.random()  // Différent serveur vs client
 const id = useId()
 ```
 
-**3. Fetch de données**
+#### 3. Fetch de données
 
 ```tsx
 // ✅ useFetch s'exécute côté serveur, évite le double fetch
@@ -82,7 +82,7 @@ onMounted(async () => {
 })
 ```
 
-### Bonnes pratiques SSR
+## Bonnes pratiques SSR
 
 1. **Utilise `useFetch` ou `useAsyncData`** pour les données, jamais `$fetch` directement dans le setup (sauf dans des handlers d'événements)
 2. **Gère les erreurs de fetch**
@@ -105,11 +105,11 @@ const user = ref(null)
 const user = useState('user', () => null)
 ```
 
-### Bonnes pratiques SPA
+## Bonnes pratiques SPA
 
 1. **Ajoute un loading state** car pas de contenu initial
 
-```
+```tsx
 <template>
   <div v-if="pending">Chargement...</div>
   <div v-else>{{ data }}</div>
@@ -130,7 +130,7 @@ export default defineNuxtRouteMiddleware(async () => {
 })
 ```
 
-### Erreurs courantes à éviter
+## Erreurs courantes à éviter
 
 | Erreur | Conséquence | Solution |
 | --- | --- | --- |
@@ -140,7 +140,7 @@ export default defineNuxtRouteMiddleware(async () => {
 | Librairie client-only sans guard | Crash serveur | Composant `<ClientOnly>` ou `.client.vue` |
 | Dates/random dans template | Hydration mismatch | `useId()`, timestamps fixes |
 
-### Comment choisir ?
+## Comment choisir ?
 
 **Choisis SSR si :**
 

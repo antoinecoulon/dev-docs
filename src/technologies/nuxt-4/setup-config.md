@@ -1,6 +1,6 @@
 # Setup et Configuration
 
-### Initialisation
+## Initialisation
 
 ```bash
 npx nuxi@latest init mon-projet
@@ -8,32 +8,32 @@ cd mon-projet
 npm install
 ```
 
-Nuxt demande : 
+Nuxt demande :
 
 - Which template would you like to use?
-    - **`minimal`** : C'est le choix standard pour Nuxt 4. Il installe le strict nécessaire.
-        - **Configuration générée** : Un fichier `nuxt.config.ts`, un dossier `app/` (la grande nouveauté de Nuxt 4), et un fichier `app.vue`.
-        - **Pourquoi le choisir** : Tu veux construire ton projet de zéro sans fichiers d'exemple inutiles.
-    - **Autres templates (Basic / Community)** : Parfois, le CLI propose des variantes incluant déjà des configurations pour des outils comme Content, UI, ou des exemples d'API.
-        - **Pourquoi le choisir** : Pour apprendre en observant une structure déjà peuplée.
+  - **`minimal`** : C'est le choix standard pour Nuxt 4. Il installe le strict nécessaire.
+    - **Configuration générée** : Un fichier `nuxt.config.ts`, un dossier `app/` (la grande nouveauté de Nuxt 4), et un fichier `app.vue`.
+    - **Pourquoi le choisir** : Tu veux construire ton projet de zéro sans fichiers d'exemple inutiles.
+  - **Autres templates (Basic / Community)** : Parfois, le CLI propose des variantes incluant déjà des configurations pour des outils comme Content, UI, ou des exemples d'API.
+    - **Pourquoi le choisir** : Pour apprendre en observant une structure déjà peuplée.
 - Which package manager...?
-    - **npm**
-        - Standard
-        - Installé par défaut avec Node.js.
-        - Plus lent sur les gros projets.
-    - **pnpm**
-        - Très rapide
-        - Économe en espace disque (utilise des liens symboliques). Très recommandé pour Nuxt.
-    - **yarn**
-        - Rapide
-        - Classique, très stable, bien que pnpm soit souvent préféré aujourd'hui.
-    - **bun**
-        - Ultra rapide
-        - Un runtime complet qui remplace Node.js. À choisir si tu veux tester les performances maximales.
+  - **npm**
+    - Standard
+    - Installé par défaut avec Node.js.
+    - Plus lent sur les gros projets.
+  - **pnpm**
+    - Très rapide
+    - Économe en espace disque (utilise des liens symboliques). Très recommandé pour Nuxt.
+  - **yarn**
+    - Rapide
+    - Classique, très stable, bien que pnpm soit souvent préféré aujourd'hui.
+  - **bun**
+    - Ultra rapide
+    - Un runtime complet qui remplace Node.js. À choisir si tu veux tester les performances maximales.
 - Initialize git repository? → Lance un `git init`
 - Install any official modules? → Installer certains packages dès l’init
 
-La structure devrait ressembler à ça : 
+La structure devrait ressembler à ça :
 
 ```bash
 .
@@ -44,8 +44,6 @@ La structure devrait ressembler à ça :
 ├── package.json
 └── public/             <-- Fichiers statiques (images, robots.txt)
 ```
-
----
 
 ### Configuration indispensable (`nuxt.config.ts`)
 

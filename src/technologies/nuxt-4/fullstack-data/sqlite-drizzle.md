@@ -20,8 +20,6 @@ npm install -D drizzle-kit @types/better-sqlite3
 npm install drizzle-orm postgres
 ```
 
----
-
 ## Étape 2 : Configuration Drizzle Kit
 
 **Créer `drizzle.config.ts`** (à la racine du projet) :
@@ -51,29 +49,23 @@ export default defineConfig({
 - Convention Nuxt pour fichiers ignorés par Git
 - Ajoute `.data/` dans `.gitignore`
 
----
-
 ## Étape 3 : Créer la structure de dossiers
 
 ```bash
 mkdir -p server/database/migrations
 mkdir -p .data
-
 ```
 
 **Organisation professionnelle :**
 
-```
+```text
 server/
 ├── database/
 │   ├── schema.ts         # ← Schémas de tables
 │   └── migrations/       # ← Historique SQL auto-généré
 └── utils/
     └── db.ts            # ← Instance Drizzle
-
 ```
-
----
 
 ## Étape 4 : Initialiser la connexion DB
 
@@ -91,7 +83,6 @@ sqlite.pragma('foreign_keys = ON')
 
 // Créer l'instance Drizzle
 export const db = drizzle(sqlite)
-
 ```
 
 **Points clés :**
@@ -100,8 +91,6 @@ export const db = drizzle(sqlite)
 - `pragma` active les contraintes FK (désactivées par défaut en SQLite)
 - Export unique = pattern singleton
 - Placé dans `utils/` = auto-importé partout dans `server/`
-
----
 
 ## Étape 5 : Définir ton schéma
 
@@ -118,7 +107,6 @@ export const persons = sqliteTable('persons', {
   createdAt: integer('created_at', { mode: 'timestamp' })
     .$defaultFn(() => new Date())
 })
-
 ```
 
 **Syntaxe Drizzle :**
@@ -141,8 +129,6 @@ CREATE TABLE persons (
   created_at INTEGER DEFAULT (strftime('%s', 'now'))
 );
 ```
-
----
 
 ## Étape 6 : Générer et appliquer la migration
 
@@ -185,8 +171,6 @@ CREATE TABLE `persons` (
 );
 ```
 
----
-
 ## Étape 7 : Tester avec Drizzle Studio (optionnel mais utile)
 
 ```bash
@@ -199,8 +183,6 @@ npm run db:studio
 - Insérer/modifier des données
 - Tester des requêtes
 - Alternative à DB Browser for SQLite
-
----
 
 ## Étape 8 : Premier test d'insertion
 
@@ -228,7 +210,7 @@ export default defineEventHandler(async () => {
 
 **Tester dans le navigateur :**
 
-```
+```text
 http://localhost:3000/api/test-db
 
 ```
@@ -240,15 +222,11 @@ http://localhost:3000/api/test-db
 - Types TS auto-complétés ✨
 - Retour auto-sérialisé en JSON
 
----
-
 ## Récapitulatif du workflow
 
-```
+```text
 1. Modifier schema.ts (ajouter/modifier tables)
 2. npm run db:generate (créer migration SQL)
 3. npm run db:migrate (appliquer sur DB)
 4. Utiliser db.insert/select/update/delete dans API routes
 ```
-
----

@@ -1,11 +1,6 @@
-# Server/Client et Communication API
-
 # Architecture Server/Client et Communication API dans Nuxt 4 Fullstack
 
 > Ce guide approfondit la séparation des responsabilités entre server/ et app/, la création de routes API avec Drizzle, et les patterns de consommation côté client.
-> 
-
----
 
 ## 1. Comprendre la séparation Server / Client
 
@@ -20,7 +15,7 @@ Dans une architecture Nuxt fullstack pure, **deux environnements d’exécution 
 
 **Règle d’or** : Le client ne doit **jamais** accéder directement à la base de données. Toute donnée passe par une route API.
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                        NAVIGATEUR                           │
 │   app/pages/       app/components/       app/composables/   │
@@ -45,17 +40,20 @@ Dans une architecture Nuxt fullstack pure, **deux environnements d’exécution 
 ### Ce qui s’exécute où
 
 **Côté Server uniquement** (`server/`) :
+
 - Accès BDD via Drizzle
 - Variables d’environnement sensibles (`process.env.DATABASE_URL`)
 - Opérations filesystem (`fs.readFile`)
 - Secrets, tokens, credentials
 
 **Côté Client uniquement** (dans le navigateur) :
+
 - `localStorage`, `sessionStorage`
 - APIs navigateur (`navigator`, `window`)
 - Event listeners DOM
 
 **Côté “Universel”** (`app/` - s’exécute des deux côtés en SSR) :
+
 - Composables avec `useFetch`, `useAsyncData`
 - `useState` (hydraté du serveur vers le client)
 - Composants Vue (rendus SSR puis hydratés)
@@ -78,8 +76,6 @@ onMounted(() => {
 ```
 
 **`import.meta.client`** et **`import.meta.server`** : constantes Nuxt pour conditionner l’exécution.
-
----
 
 ## 2. Anatomie d’une route API Nuxt
 
@@ -108,6 +104,7 @@ export default defineEventHandler(async (event) => {
 **`defineEventHandler`** : fonction Nuxt qui crée un handler compatible H3 (le serveur HTTP sous-jacent).
 
 **`event`** : objet contenant :
+
 - La requête HTTP brute
 - Les headers
 - Les paramètres de route
@@ -138,8 +135,6 @@ if (isNaN(id)) {
   throw createError({ statusCode: 400, message: 'ID invalide' })
 }
 ```
-
----
 
 ## 3. Routes API avec Drizzle et SQLite
 
@@ -296,8 +291,6 @@ throw createError({
 
 **`createError`** : fonction H3/Nuxt qui crée une erreur HTTP propre, interceptée par le client.
 
----
-
 ## 4. Validation avec Zod côté serveur
 
 ### Pourquoi valider côté serveur ?
@@ -338,6 +331,7 @@ export default defineEventHandler(async (event) => {
 ```
 
 **`safeParse`** vs **`parse`** :
+
 - `safeParse` : retourne `{ success, data?, error? }` — ne throw pas
 - `parse` : retourne directement les données ou throw une exception
 
@@ -359,15 +353,13 @@ export type CreateTask = z.infer<typeof createTaskSchema>
 export type UpdateTask = z.infer<typeof updateTaskSchema>
 ```
 
----
-
 ## 5. Composables pour consommer les APIs
 
 ### Principe : centraliser les appels API
 
 Au lieu d’appeler `useFetch` directement dans chaque composant, on crée des **composables** qui encapsulent la logique.
 
-```
+```text
 app/composables/useTasks.ts  →  Logique d'accès aux tâches
 app/pages/tasks/index.vue   →  Utilise useTasks()
 app/components/TaskList.vue →  Utilise useTasks()
@@ -431,7 +423,7 @@ export function useTasks() {
 
 ### Utilisation dans une page
 
-```
+```ts
 <script setup lang="ts">
 const { tasks, fetchAll, create } = useTasks()
 
@@ -458,6 +450,7 @@ async function handleCreate() {
 | **Cache** | ✅ Intégré | ❌ Aucun |
 
 **Règle** :
+
 - `useFetch` pour le chargement initial (dans `setup` ou composables)
 - `$fetch` pour les actions utilisateur (onClick, onSubmit)
 
@@ -492,13 +485,11 @@ export function useTasks() {
 }
 ```
 
----
-
 ## 6. Gestion des types partagés
 
 ### Le problème
 
-```
+```text
 server/database/schema.ts  →  Types Drizzle (InferSelectModel)
 app/composables/useTasks.ts  →  Besoin des mêmes types
 ```
@@ -507,7 +498,7 @@ Le client ne peut pas importer depuis `server/` (environnements séparés).
 
 ### Solution : dossier `types/` à la racine
 
-```
+```text
 project/
 ├── app/
 ├── server/
@@ -580,8 +571,6 @@ export type TaskDB = typeof tasks.$inferSelect
 ```
 
 Puis dans `types/models.ts`, tu peux créer le type API qui en dérive (avec dates en string, etc.).
-
----
 
 ## 7. Patterns avancés
 
@@ -662,13 +651,11 @@ async function remove(id: number) {
 }
 ```
 
----
-
 ## 8. Checklist de mise en œuvre
 
 ### Structure minimale
 
-```
+```text
 project/
 ├── app/
 │   ├── composables/
@@ -699,8 +686,6 @@ project/
 - [ ]  Les types sont-ils cohérents entre server et client ?
 - [ ]  Les dates sont-elles gérées comme strings côté client ?
 
----
-
 ## 9. Résumé des concepts clés
 
 | Concept | Syntaxe | Usage |
@@ -714,8 +699,6 @@ project/
 | Fetch action | `$fetch('/api/...', { method })` | onClick, onSubmit |
 | État global | `useState('key', () => initial)` | Partage entre composants |
 | Refresh | `const { refresh } = useFetch(...)` | Recharger après mutation |
-
----
 
 ## Ressources
 

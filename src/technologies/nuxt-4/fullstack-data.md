@@ -1,14 +1,12 @@
 # Manipuler et stocker des données avec Nuxt.js Fullstack (sans BFF)
 
 > Ce guide complète le précédent en se concentrant sur une architecture où Nuxt est le seul backend. Seules les différences et spécificités sont abordées.
-> 
-
 
 ## 1. Différence architecturale fondamentale
 
 ### BFF vs Fullstack pur
 
-```
+```text
 ┌─── Architecture BFF ───────────────────────────────────────────┐
 │                                                                │
 │   Client ──► Nuxt Server ──► Backend .NET ──► Base de données  │
@@ -36,7 +34,7 @@
 
 ### Structure adaptée
 
-```
+```text
 server/
 ├── api/                    # Endpoints REST
 │   └── users/
@@ -57,7 +55,6 @@ server/
 ```
 
 **Changement clé** : Le dossier `repositories/` devient souvent inutile. Tu peux appeler Drizzle directement depuis les services ou même les handlers pour les apps simples.
-
 
 ## 2. Connexion directe à la base de données
 
@@ -145,8 +142,6 @@ npx drizzle-kit studio
 3. `npx drizzle-kit migrate` → applique à la DB
 4. Commiter le fichier de migration avec le code
 
----
-
 ## 4. Requêtes relationnelles (Drizzle Relations API)
 
 En fullstack pur, tu gères toi-même les relations. Drizzle offre une API élégante.
@@ -219,8 +214,6 @@ const recentPosts = await db.query.posts.findMany({
 | Joins manuels | Relations automatiques avec `with` |
 | Contrôle total | Plus concis pour les cas courants |
 
----
-
 ## 5. Seeding (données initiales)
 
 ### Script de seed
@@ -265,13 +258,10 @@ seed().catch(console.error)
 }
 ```
 
----
-
 ### Fichier seed : `server/database/seed.ts`
 
-typescript
-
-`import { db } from '~/server/utils/db'
+```ts
+import { db } from '~/server/utils/db'
 import { volunteers } from './schema'
 
 export const seedVolunteers = [
@@ -305,7 +295,8 @@ export async function seedDatabase() {
     await db.insert(volunteers).values(seedVolunteers)
     console.log('✅ Database seeded successfully')
   }
-}`
+}
+```
 
 ### Points importants
 
@@ -324,13 +315,10 @@ export async function seedDatabase() {
 - Tu peux les importer pour des tests
 - Facilite le reset de la DB
 
----
-
 ## 2. Plugin mis à jour : `server/plugins/database.ts`
 
-typescript
-
-`import { seedDatabase } from '../database/seed'
+```ts
+import { seedDatabase } from '../database/seed'
 
 export default defineNitroPlugin(async () => {
   try {
@@ -346,9 +334,10 @@ export default defineNitroPlugin(async () => {
     console.error('❌ Database connection failed', error)
     process.exit(1)
   }
-})`
+})
+```
 
-### Points importants
+### Points importants 2
 
 **Check environnement** : `process.env.NODE_ENV`
 
@@ -365,38 +354,34 @@ export default defineNitroPlugin(async () => {
 - Force à corriger le problème immédiatement
 - Évite un serveur qui tourne sans DB
 
----
-
 ### Alternative : Script de seed manuel
 
 Si tu préfères contrôler manuellement le seed :
 
 ### `scripts/seed.ts`
 
-typescript
-
-`import { seedDatabase } from '../server/database/seed'
+```ts
+import { seedDatabase } from '../server/database/seed'
 
 async function run() {
   await seedDatabase()
   process.exit(0)
 }
 
-run()`
+run()
+```
 
 ### Dans `package.json`
 
-json
-
-`{
+```json
+{
   "scripts": {
     "seed": "tsx scripts/seed.ts"
   }
-}`
+}
+```
 
 Puis tu lances manuellement : `npm run seed`
-
----
 
 ## 6. Pattern simplifié (sans couche service)
 
@@ -424,11 +409,10 @@ export default defineEventHandler(async (event) => {
 ```
 
 **Quand ajouter une couche service ?**
+
 - Logique métier complexe (calculs, validations croisées)
 - Réutilisation entre plusieurs endpoints
 - Tests unitaires de la logique métier
-
----
 
 ## 7. Transactions
 
@@ -465,8 +449,6 @@ export default defineEventHandler(async (event) => {
 ```
 
 **Syntaxe clé** : `db.transaction(async (tx) => { ... })` — utilise `tx` au lieu de `db` dans le callback.
-
----
 
 ## 8. Considérations de sécurité spécifiques
 
@@ -514,8 +496,6 @@ const updateUserSchema = z.object({
 })
 ```
 
----
-
 ## 9. Comparatif final
 
 | Aspect | Fullstack pur | BFF |
@@ -528,8 +508,6 @@ const updateUserSchema = z.object({
 | **Scalabilité** | Limité par Nuxt | Backend peut scaler indépendamment |
 | **Cas d’usage** | Apps personnelles, MVPs, outils internes | Apps enterprise, microservices |
 
----
-
 ## Résumé des différences clés
 
 | Ce qui change | BFF | Fullstack pur |
@@ -540,8 +518,6 @@ const updateUserSchema = z.object({
 | **Relations** | API backend les gère | `relations()` + `with: {}` |
 | **Transactions** | Backend les gère | `db.transaction()` |
 | **Seed** | Backend ou scripts séparés | `npm run db:seed` |
-
----
 
 ## Workflow de développement typique
 

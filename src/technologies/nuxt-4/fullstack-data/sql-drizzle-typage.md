@@ -2,7 +2,7 @@
 
 ## Le mécanisme fondamental
 
-**Drizzle génère automatiquement les types TS depuis tes schémas**
+Drizzle génère automatiquement les types TS depuis tes schémas:
 
 ```tsx
 // server/database/schema.ts
@@ -18,8 +18,6 @@ export const persons = sqliteTable('persons', {
 
 1. **Source SQL** : pour créer la table physique
 2. **Source de types TS** : inférés automatiquement
-
----
 
 ## Extraction des types
 
@@ -43,8 +41,6 @@ type NewPerson = InferInsertModel<typeof persons>
 - `InferSelectModel` : tous les champs présents (lecture DB)
 - `InferInsertModel` : champs optionnels si `autoIncrement` ou `$defaultFn`
 
----
-
 ## Comparaison avec approches manuelles
 
 ### ❌ Ancienne méthode (sans ORM)
@@ -67,8 +63,6 @@ db.query('SELECT * FROM persons')
 - Aucune vérification à la compilation
 - Maintenance double (schema + types)
 
----
-
 ### ✅ Avec Drizzle (source unique de vérité)
 
 ```tsx
@@ -86,8 +80,6 @@ const allPersons = await db.select().from(persons)
 - Auto-complétion IDE
 - Erreurs TS à la compilation
 - Refactoring safe
-
----
 
 ## En pratique dans ton code
 
@@ -115,8 +107,6 @@ const results = await db.select().from(persons)
 //    ↑ Type inféré : { id: number; name: string; ... }[]
 ```
 
----
-
 ### Exemple 2 : Insertion avec validation
 
 ```tsx
@@ -136,8 +126,6 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
----
-
 ### Exemple 3 : Sélection partielle
 
 ```tsx
@@ -155,8 +143,6 @@ const nameOnly = await db
 - Si tu sélectionnes tout → type complet
 - Si tu sélectionnes partiellement → type partiel
 - Pas besoin de typage manuel !
-
----
 
 ## Relations et types imbriqués
 
@@ -194,8 +180,6 @@ const usersWithPosts = await db.query.users.findMany({
 //   posts: { id: number; title: string; userId: number | null }[]
 // }[]
 ```
-
----
 
 ## Schéma → Types → Validation (flux complet)
 
@@ -235,8 +219,6 @@ export default defineEventHandler(async (event) => {
 - **Zod** : validation à l'exécution (données utilisateur)
 - Les deux sont complémentaires !
 
----
-
 ## Pattern professionnel recommandé
 
 **Créer `server/database/types.ts`** :
@@ -262,10 +244,9 @@ import type { Person, NewPerson } from '~/server/database/types'
 function processPerson(person: Person) { /* ... */ }
 ```
 
----
-
 ## Récapitulatif
-```
+
+```text
 Schema Drizzle (sqliteTable)
         ↓
    [Compilation]

@@ -1,6 +1,6 @@
 # Nuxt UI v3 + TailwindCSS v4
 
-### Installation
+## Installation
 
 ```bash
 npx nuxi module add ui
@@ -14,7 +14,7 @@ C'est tout. Nuxt UI v3 inclut Tailwind CSS v4, les icônes, et les fonts automat
 - **@nuxt/icon** : accès à 200k+ icônes via `<UIcon name="i-heroicons-home" />`
 - **@nuxt/fonts** : optimisation auto des fonts Google
 
-### Configuration (`nuxt.config.ts`)
+## Configuration (`nuxt.config.ts`)
 
 ```tsx
 export default defineNuxtConfig({
@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 })
 ```
 
-### Configuration Tailwind v4 (`app/assets/css/main.css`)
+## Configuration Tailwind v4 (`app/assets/css/main.css`)
 
 Tailwind v4 utilise une approche CSS-first :
 
@@ -73,7 +73,7 @@ export default defineAppConfig({
 
 **Couleurs disponibles :** `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`
 
-### Composants essentiels
+## Composants essentiels
 
 **Boutons :**
 
@@ -121,7 +121,7 @@ export default defineAppConfig({
 </UDropdownMenu>
 ```
 
-### Icônes
+## Icônes
 
 Nuxt UI utilise `@nuxt/icon` avec Iconify. Syntaxe : `i-{collection}-{name}`
 
@@ -138,7 +138,7 @@ Nuxt UI utilise `@nuxt/icon` avec Iconify. Syntaxe : `i-{collection}-{name}`
 
 **Rechercher des icônes :** [icones.js.org](https://icones.js.org/)
 
-### Theming avancé
+## Theming avancé
 
 **Personnaliser un composant globalement :**
 
@@ -165,7 +165,7 @@ export default defineAppConfig({
 <UButton :ui="{ base: 'rounded-none' }">Carré</UButton>
 ```
 
-### Dark Mode
+## Dark Mode
 
 ```tsx
 <script setup>
@@ -180,7 +180,7 @@ const colorMode = useColorMode()
 </template>
 ```
 
-### Bonnes pratiques Nuxt UI
+## Bonnes pratiques Nuxt UI
 
 1. **Utilise `app.config.ts`** pour la personnalisation globale, pas le CSS
 2. **Préfère les variantes** (`color`, `variant`, `size`) au CSS custom

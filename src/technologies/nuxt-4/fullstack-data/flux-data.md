@@ -1,8 +1,8 @@
 # Premier flux de données DB → API → Client
 
-### **Vue d'ensemble du flux**
+## Vue d'ensemble du flux
 
-```
+```text
 Database (SQLite)
     ↓ Drizzle ORM
 API Route (server/api/volunteers.ts)
@@ -11,8 +11,6 @@ Composable (composables/useVolunteers.ts)
     ↓ Reactive data
 Component (pages/volunteers.vue)
 ```
-
----
 
 ## Route API : GET /api/volunteers
 
@@ -49,11 +47,9 @@ export default defineEventHandler(async (event) => {
 - Pas besoin de définir manuellement `Volunteer`
 - Le type est disponible côté client via l'API
 
----
-
 ## Composable : useVolunteers
 
-### Concept clé
+### Concept clé : Composable
 
 Un composable encapsule la **logique de fetching** pour la réutiliser. Convention : préfixe `use`.
 
@@ -65,7 +61,7 @@ export function useVolunteers() {
 }
 ```
 
-### Points importants
+### Points importants 1
 
 **`useFetch`** : composable Nuxt pour fetcher des données
 
@@ -88,8 +84,6 @@ export function useVolunteers() {
   refresh: () => Promise<void>
 }
 ```
-
----
 
 ## Utilisation dans un composant
 
@@ -118,7 +112,7 @@ const { data: volunteers, pending, error } = useVolunteers()
 </template>
 ```
 
-### Points importants
+### Points importants 2
 
 **Destructuring** : `const { data, pending, error }`
 
@@ -134,8 +128,6 @@ const { data: volunteers, pending, error } = useVolunteers()
 
 - `:rows` attend un array
 - `:columns` définit quelles colonnes afficher avec leur mapping
-
----
 
 ## Typage des données
 
@@ -177,11 +169,9 @@ export type VolunteerDTO = Serialized<Volunteer>
 
 ✅ **Type-safe** : impossible d'avoir un décalage entre DB et API
 
----
-
 ## Utilisation (identique)
 
-```ts 
+```ts
 import type { VolunteerDTO } from '~/types/database'
 
 export function useVolunteers() {
@@ -197,8 +187,6 @@ defineProps<{ rows: VolunteerDTO[] }>()
 </script>
 ```
 
----
-
 ## Pourquoi c'est la meilleure pratique
 
 **Standards de l'industrie** :
@@ -213,8 +201,6 @@ defineProps<{ rows: VolunteerDTO[] }>()
 - Sépare clairement DB types vs API types
 - Le type utilitaire `Serialized` est réutilisable pour toutes tes tables
 
----
-
 ## CRUD complet
 
 ## Vue d'ensemble
@@ -222,8 +208,6 @@ defineProps<{ rows: VolunteerDTO[] }>()
 Le **GET ALL** qu'on a fait utilise `useFetch` car on charge des données au montage du composant.
 
 Pour **Create/Update/Delete**, on utilise `$fetch` car ce sont des **actions utilisateur** (clic bouton, soumission form).
-
----
 
 ## 1. CREATE - POST /api/volunteers
 
@@ -253,7 +237,7 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
-### Points importants
+### Points importants 3
 
 **`getMethod(event)`** : détecte GET/POST/PUT/DELETE sur la même route
 
@@ -262,8 +246,6 @@ export default defineEventHandler(async (event) => {
 **`.returning()`** : Drizzle retourne l'objet créé (avec l'id auto-généré)
 
 **Destructuring `[newVolunteer]`** : `.returning()` renvoie un array, on prend le premier élément
-
----
 
 ### Composable : `composables/useVolunteers.ts`
 
@@ -289,7 +271,7 @@ export function useVolunteers() {
 }
 ```
 
-### Points importants
+### Points importants 4
 
 **`$fetch`** : version non-reactive de `useFetch`
 
@@ -306,9 +288,7 @@ export function useVolunteers() {
 
 - Pratique car `id`, `createdAt`, etc. sont générés par la DB
 
----
-
-### Utilisation dans un composant
+### Utilisation dans un composant 1
 
 ```ts
 <script setup lang="ts">
@@ -337,8 +317,6 @@ const handleSubmit = async () => {
 </template>
 ```
 
----
-
 ## 2. UPDATE - PUT /api/volunteers/[id].ts
 
 ### Route API : `server/api/volunteers/[id].ts`
@@ -366,7 +344,7 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
-### Points importants
+### Points importants 5
 
 **`[id].ts`** : bracket syntax = paramètre dynamique
 
@@ -382,8 +360,6 @@ export default defineEventHandler(async (event) => {
 
 - Seuls les champs dans `body` sont modifiés
 - Les autres restent inchangés
-
----
 
 ### Composable : ajout dans `useVolunteers.ts`
 
@@ -418,8 +394,6 @@ const editVolunteer = async (id: number) => {
 </script>
 ```
 
----
-
 ## 3. DELETE - DELETE /api/volunteers/[id].ts
 
 ### Route API : dans le même fichier `[id].ts`
@@ -443,15 +417,13 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
-### Points importants
+### Points importants 6
 
 **Pas de `.returning()`** : pas nécessaire pour un DELETE
 
 **Return custom** : on renvoie une confirmation simple
 
----
-
-### Composable : ajout dans `useVolunteers.ts`
+### Composable : ajout 2 dans `useVolunteers.ts`
 
 ```ts
 const deleteVolunteer = async (id: number) => {
@@ -470,8 +442,6 @@ return {
 }
 ```
 
----
-
 ## Résumé des différences clés
 
 | Opération | Route | Méthode HTTP | Quand ? | Tool |
@@ -480,8 +450,6 @@ return {
 | **CREATE** | `/api/volunteers` | POST | Action user | `$fetch` |
 | **UPDATE** | `/api/volunteers/[id]` | PUT | Action user | `$fetch` |
 | **DELETE** | `/api/volunteers/[id]` | DELETE | Action user | `$fetch` |
-
----
 
 ## Concepts clés à retenir
 

@@ -1,10 +1,10 @@
 # Structure et Architecture Détaillée
 
-### `app/pages/`
+## `app/pages/`
 
 Routing automatique basé sur les fichiers.
 
-```
+```text
 pages/
 ├── index.vue           # /
 ├── about.vue           # /about
@@ -24,13 +24,11 @@ routeRules: {
 }
 ```
 
----
-
-### `app/components/`
+## `app/components/`
 
 Auto-importés, pas besoin d'import manuel.
 
-```
+```text
 components/
 ├── AppHeader.vue           # <AppHeader />
 ├── AppFooter.vue           # <AppFooter />
@@ -41,9 +39,7 @@ components/
 
 **Conseil :** Préfixe par dossier pour éviter les collisions. `dashboard/Sidebar.vue` devient `<DashboardSidebar />`.
 
----
-
-### `app/composables/`
+## `app/composables/`
 
 Logique réutilisable, auto-importée.
 
@@ -70,13 +66,11 @@ export function useAuth() {
 
 **Règle :** Le nom du fichier doit commencer par `use` pour l'auto-import.
 
----
-
-### `app/layouts/`
+## `app/layouts/`
 
 Structure commune pour plusieurs pages.
 
-```
+```tsx
 <!-- layouts/default.vue -->
 <template>
   <div>
@@ -89,7 +83,7 @@ Structure commune pour plusieurs pages.
 </template>
 ```
 
-```
+```tsx
 <!-- layouts/dashboard.vue -->
 <template>
   <div class="flex">
@@ -103,7 +97,7 @@ Structure commune pour plusieurs pages.
 
 **Utilisation dans une page :**
 
-```
+```tsx
 <script setup>
 definePageMeta({
   layout: 'dashboard'
@@ -111,9 +105,7 @@ definePageMeta({
 </script>
 ```
 
----
-
-### `app/middleware/`
+## `app/middleware/`
 
 Guards de navigation (auth, permissions...).
 
@@ -130,7 +122,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
 **Application :**
 
-```
+```tsx
 <script setup>
 definePageMeta({
   middleware: 'auth'
@@ -141,14 +133,12 @@ definePageMeta({
 
 **Middleware global :** Suffixe `.global.ts`
 
-```
+```tsx
 middleware/
 └── auth.global.ts   # S'exécute sur TOUTES les routes
 ```
 
----
-
-### `app/plugins/`
+## `app/plugins/`
 
 Code exécuté à l'initialisation.
 
@@ -172,15 +162,13 @@ export default defineNuxtPlugin(() => {
 
 **Plugins client/serveur only :**
 
-```
+```text
 plugins/
 ├── analytics.client.ts   # Côté client uniquement
 └── database.server.ts    # Côté serveur uniquement
 ```
 
----
-
-### `app/utils/`
+## `app/utils/`
 
 Fonctions utilitaires pures, auto-importées.
 
