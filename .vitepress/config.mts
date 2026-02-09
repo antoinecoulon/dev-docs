@@ -69,6 +69,10 @@ export default defineConfig({
             text: "Git",
             link: "/git/git"
           },
+          {
+            text: "Admin Système",
+            link: "/sys-admin/sys-admin"
+          },
           { text: "Ressources", link: "/resources/a-trier-resources"},
           { text: "About", link: "/about" },
         ],
