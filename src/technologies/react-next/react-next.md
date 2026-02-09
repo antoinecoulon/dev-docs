@@ -213,8 +213,6 @@ export default function AnimatedTerminal() {
     </div>
   );
 };
-
-// TODO: sauvegarder component dans notion
 ```
 
 ### TerminalUI.tsx
@@ -248,8 +246,6 @@ export default function TerminalUI({ title = "Terminal", children, className = "
     </div>
   );
 }
-
-// TODO: sauvegarder component dans notion
 ```
 
 ## Utilitaires
