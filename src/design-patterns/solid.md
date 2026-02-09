@@ -1,6 +1,6 @@
-# SOLID 
+# SOLID
 
-# What is SOLID principles?
+## What is SOLID principles?
 
 The SOLID principles were introduced by Robert C. Martin in his 2000 paper “Design Principles and Design Patterns.” These concepts were later built upon by Michael Feathers, who introduced us to the SOLID acronym. And in the last 20 years, these five principles have revolutionized the world of object-oriented programming, changing the way that we write software.
 
@@ -16,7 +16,7 @@ The following five concepts make up our SOLID principles:
 
 While these concepts may seem daunting, they can be easily understood with some simple code examples. In the following sections, we’ll take a deep dive into these principles, with a quick Java example to illustrate each one.
 
-# **Single Responsibility**
+## Single Responsibility
 
 Let’s begin with the single responsibility principle. As we might expect, this principle states that **a class should only have one responsibility. Furthermore, it should only have one reason to change.**
 
@@ -101,7 +101,7 @@ Awesome. Not only have we developed a class that relieves the *Book* of its pr
 
 Whether it’s email, logging, or anything else, we have a separate class dedicated to this one concern.
 
-# **Open for Extension, Closed for Modification**
+## Open for Extension, Closed for Modification
 
 It’s now time for the O in SOLID, known as the **open-closed principle.** Simply put, **classes should be open for extension but closed for modification.** **In doing so, we** **stop ourselves from modifying existing code and causing potential new bugs** in an otherwise happy application.
 
@@ -139,7 +139,7 @@ private String flameColor;
 
 By extending the *Guitar* class, we can be sure that our existing application won’t be affected.
 
-# **Liskov Substitution**
+## Liskov Substitution
 
 Next on our list is [Liskov substitution](https://www.baeldung.com/cs/liskov-substitution-principle), which is arguably the most complex of the five principles. Simply put, **if class *A* is a subtype of class *B*, we should be able to replace *B* with *A* without disrupting the behavior of our program.**
 
@@ -197,7 +197,7 @@ By throwing a car without an engine into the mix, we are inherently changing the
 
 One possible solution would be to rework our model into interfaces that take into account the engine-less state of our *Car*.
 
-# **Interface Segregation**
+## Interface Segregation
 
 The I  in SOLID stands for interface segregation, and it simply means that **larger interfaces should be split into smaller ones. By doing so, we can ensure that implementing classes only need to be concerned about the methods that are of interest to them.**
 
@@ -259,7 +259,7 @@ publicvoidpetTheBear() {
 
 Going further, we could even split our [*BookPrinter](https://www.baeldung.com/solid-principles#s)* class from our example earlier to use interface segregation in the same way. By implementing a *Printer* interface with a single *print* method, we could instantiate separate *ConsoleBookPrinter* and *OtherMediaBookPrinter* classes.
 
-# **Dependency Inversion**
+## *Dependency Inversion*
 
 **The principle of dependency inversion refers to the decoupling of software modules. This way, instead of high-level modules depending on low-level modules, both will depend on abstractions.**
 

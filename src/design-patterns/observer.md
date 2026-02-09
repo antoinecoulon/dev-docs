@@ -38,8 +38,6 @@ public class SystemeAlarme
     }
 }
 
-```
-
 **Problèmes identifiés :**
 
 1. Couplage fort entre le sujet et ses dépendances
@@ -49,7 +47,7 @@ public class SystemeAlarme
 
 ## Structure du Pattern
 
-```
+```text
 ┌─────────────┐         ┌──────────────┐
 │   Subject   │◇───────>│  IObserver   │
 ├─────────────┤         ├──────────────┤
@@ -67,7 +65,7 @@ public class SystemeAlarme
 
 ```
 
-## Implémentation en C#
+## Implémentation en `C#`
 
 ### Version 1 : Implémentation Manuelle
 
@@ -208,7 +206,6 @@ public class LoggerTemperature : IObservateur
         }
     }
 }
-
 ```
 
 ### Utilisation
@@ -255,7 +252,6 @@ public class Program
         logger.AfficherHistorique();
     }
 }
-
 ```
 
 ### Version 2 : Avec IObservable/IObserver de .NET
@@ -386,7 +382,6 @@ public class ProgrammeReactif
         capteur.Temperature = 30.0; // affichageTemp ne sera plus notifié
     }
 }
-
 ```
 
 ## Analyse Critique
@@ -462,7 +457,6 @@ public class SujetAvecProtection : SujetObservable
         }
     }
 }
-
 ```
 
 ## Cas d'Usage Pratiques

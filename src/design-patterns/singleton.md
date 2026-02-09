@@ -1,4 +1,4 @@
-<!-- # Singleton
+# Singleton
 
 ## Définition et Contexte
 
@@ -33,7 +33,6 @@ public class ConfigurationApp
 var config1 = new ConfigurationApp { ChaineCo = "Server1", TimeoutSeconde = 30 };
 var config2 = new ConfigurationApp { ChaineCo = "Server2", TimeoutSeconde = 60 };
 // Quelle configuration est la "vraie" ? Incohérence garantie !
-
 ```
 
 **Problèmes identifiés :**
@@ -45,7 +44,7 @@ var config2 = new ConfigurationApp { ChaineCo = "Server2", TimeoutSeconde = 60 }
 
 ## Structure du Pattern
 
-```
+```text
 ┌───────────────────────────┐
 │      Singleton            │
 ├───────────────────────────┤
@@ -56,10 +55,9 @@ var config2 = new ConfigurationApp { ChaineCo = "Server2", TimeoutSeconde = 60 }
 │ + getInstance(): Singleton│ ← Point d'accès global
 │ + operation()             │
 └───────────────────────────┘
-
 ```
 
-## Implémentations en C#
+## Implémentations en `C#`
 
 ### ❌ Version 1 : Implémentation Naïve (À NE PAS UTILISER)
 
@@ -114,7 +112,6 @@ public class DemoProblemeThreading
         // Vous pourriez voir plusieurs messages "Instance créée" !
     }
 }
-
 ```
 
 ### ✅ Version 2 : Thread-Safe avec Lock (Double-Check Locking)
@@ -182,7 +179,6 @@ public class TestThreadSafety
         Console.WriteLine("\n✅ Une seule instance créée malgré 20 threads concurrents");
     }
 }
-
 ```
 
 ### ✅ Version 3 : Lazy Initialization (Recommandée en C#)
@@ -206,7 +202,6 @@ public sealed class SingletonLazy
         Console.WriteLine("Opération Lazy exécutée");
     }
 }
-
 ```
 
 ### ✅ Version 4 : Eager Initialization (Initialisation Anticipée)
@@ -235,7 +230,6 @@ public sealed class SingletonEager
         Console.WriteLine("Opération Eager exécutée");
     }
 }
-
 ```
 
 ## Cas d'Usage Concret : Gestionnaire de Configuration
@@ -379,7 +373,6 @@ public class ProgrammeConfiguration
         config2.AfficherConfiguration();
     }
 }
-
 ```
 
 ## Cas d'Usage : Pool de Connexions
@@ -497,7 +490,6 @@ public class DemoPool
         pool.AfficherStatistiques();
     }
 }
-
 ```
 
 ## Analyse Critique Approfondie
@@ -526,7 +518,6 @@ public class ServiceUtilisateur
         // Si GestionnaireConfiguration change, ce code casse silencieusement
     }
 }
-
 ```
 
 **Problème** : Les dépendances ne sont pas explicites, rendant le code difficile à comprendre et à maintenir.
@@ -547,7 +538,6 @@ public class ServiceLogger
 
     public void Log(string message) { ... } // Responsabilité 2
 }
-
 ```
 
 ### 3. **Tests Unitaires Impossibles ou Difficiles**
@@ -582,7 +572,6 @@ public class TestsCalculateur
         // État partagé = tests interdépendants
     }
 }
-
 ```
 
 ### 4. **Couplage Fort**
@@ -600,7 +589,6 @@ public class ServiceB
 }
 
 // Impossible de remplacer MonSingleton sans modifier toutes les classes
-
 ```
 
 ### 5. **Problèmes de Concurrence**
@@ -619,7 +607,6 @@ public sealed class CompteurGlobal
 }
 
 // Même si le Singleton est thread-safe, son ÉTAT peut ne pas l'être !
-
 ```
 
 ## Solutions Modernes : Alternatives au Singleton
@@ -701,7 +688,6 @@ public class Program
         // ✅ Respect des principes SOLID
     }
 }
-
 ```
 
 ### ✅ Solution 2 : Tests avec Injection de Dépendances
@@ -733,7 +719,6 @@ public class TestsServiceUtilisateur
         // ✅ Mock facile à créer
     }
 }
-
 ```
 
 ### ✅ Solution 3 : Pattern Strategy + Factory
@@ -784,7 +769,6 @@ public class ServiceMetier
         _logger.Log("Commande traitée");
     }
 }
-
 ```
 
 ## Quand Utiliser le Singleton (Cas Légitimes)
@@ -806,7 +790,7 @@ public class ServiceMetier
 
 ### ❌ Cas où NE PAS utiliser le Singleton
 
-1. **Configuration** → Utilisez IOptions<T> ou IConfiguration de ASP.NET Core
+1. **Configuration** → Utilisez `IOptions<T>` ou IConfiguration de ASP.NET Core
 2. **Logging** → Utilisez ILogger de Microsoft.Extensions.Logging
 3. **Services métier** → Utilisez l'injection de dépendances
 4. **Caches simples** → Utilisez IMemoryCache
@@ -853,7 +837,6 @@ public sealed class SingletonCorrect
         }
     }
 }
-
 ```
 
 ### ✅ Préférez toujours l'Injection de Dépendances
@@ -874,7 +857,6 @@ public class Startup
         // - Gestion automatique du cycle de vie
     }
 }
-
 ```
 
 ## Lien avec votre Référentiel de Certification
@@ -902,4 +884,4 @@ Dans le contexte de votre certification "Expert en Architecture et Développemen
 
 **Dans 90% des cas, préférez l'injection de dépendances avec un cycle de vie Singleton géré par le conteneur DI.**
 
-Le pattern Singleton est un outil dans votre boîte à outils, mais comme un marteau-piqueur : puissant mais à utiliser avec précaution et uniquement quand c'est vraiment nécessaire. -->
+Le pattern Singleton est un outil dans votre boîte à outils, mais comme un marteau-piqueur : puissant mais à utiliser avec précaution et uniquement quand c'est vraiment nécessaire.

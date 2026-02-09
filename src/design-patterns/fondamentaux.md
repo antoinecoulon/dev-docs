@@ -1,8 +1,8 @@
-<!-- # Fondamentaux
+# Fondamentaux
 
 ## PATTERNS DE CRÉATION
 
-_Concernent la création d'objets_
+> Concernent la création d'objets
 
 | Pattern          | Problème                                  | Quand l'Utiliser                                 | Avantages                                     | Inconvénients                                                |
 | ---------------- | ----------------------------------------- | ------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------ |
@@ -20,11 +20,9 @@ _Concernent la création d'objets_
 | Builder          | StringBuilder, HttpClient, FluentValidation     |
 | Prototype        | Clonage objets métier, Cache objets             |
 
----
-
 ## PATTERNS DE STRUCTURE
 
-_Concernent la composition de classes et d'objets_
+Concernent la composition de classes et d'objets
 
 | Pattern   | Problème                                        | Quand l'Utiliser                                       | Avantages                                 | Inconvénients                           |
 | --------- | ----------------------------------------------- | ------------------------------------------------------ | ----------------------------------------- | --------------------------------------- |
@@ -36,21 +34,19 @@ _Concernent la composition de classes et d'objets_
 | Flyweight | Partager efficacement objets similaires         | Grand nombre objets, Mémoire limitée                   | Économie mémoire, Performance             | Complexité état intrinsèque/extrinsèque |
 | Proxy     | Contrôler accès à un objet                      | Lazy loading, Contrôle accès, Logging, Cache           | Contrôle sans modifier objet, OCP         | Latence, Complexité                     |
 
-| Pattern   | Exemple en C# / .NET                                        |
-| --------- | ----------------------------------------------------------- |
-| Adapter   | Wrapper services REST, Bibliothèques externes               |
-| Bridge    | Drivers BD (MySQL, PostgreSQL) avec abstraction             |
-| Composite | Système fichiers, DOM HTML, Organisation entreprise         |
-| Decorator | Streams (FileStream > BufferedStream), Middleware ASP.NET   |
-| Facade    | API unifiée paiement (Stripe, PayPal)                       |
-| Flyweight | Rendu caractères éditeur, Pool objets, Cache tuiles jeu     |
-| Proxy     | Entity Framework (Lazy Loading), Lazy<T>, Services distants |
-
----
+| Pattern   | Exemple en C# / .NET                                          |
+| --------- | ------------------------------------------------------------- |
+| Adapter   | Wrapper services REST, Bibliothèques externes                 |
+| Bridge    | Drivers BD (MySQL, PostgreSQL) avec abstraction               |
+| Composite | Système fichiers, DOM HTML, Organisation entreprise           |
+| Decorator | Streams (FileStream > BufferedStream), Middleware ASP.NET     |
+| Facade    | API unifiée paiement (Stripe, PayPal)                         |
+| Flyweight | Rendu caractères éditeur, Pool objets, Cache tuiles jeu       |
+| Proxy     | Entity Framework (Lazy Loading), `Lazy<T>`, Services distants |
 
 ## PATTERNS COMPORTEMENTAUX
 
-_Concernent la communication entre objets_
+Concernent la communication entre objets
 
 | Pattern         | Problème                                     | Quand l'Utiliser                              | Avantages                                | Inconvénients                        |
 | --------------- | -------------------------------------------- | --------------------------------------------- | ---------------------------------------- | ------------------------------------ |
@@ -60,13 +56,13 @@ _Concernent la communication entre objets_
 | State           | Modifier comportement selon état interne     | Comportement dépend état, Machines à états    | États organisés, Transitions explicites  | Complexe si peu d'états              |
 | Template Method | Squelette d'algorithme, déléguer détails     | Algorithme avec variations, Code commun       | Réutilisation, Contrôle algorithme       | Héritage requis, Peut violer Liskov  |
 
-| Pattern         | Exemple en C# / .NET                                        |
-| --------------- | ----------------------------------------------------------- |
-| Observer        | Events C#, IObservable<T>, WPF Binding, Reactive Extensions |
-| Strategy        | Algorithmes tri, Validation données, Calcul prix (promos)   |
-| Command         | Undo/Redo, Transactions, Task scheduling, Boutons UI        |
-| State           | Workflow commande (Attente > Validée > Expédiée)            |
-| Template Method | Pipeline traitement données, Tests (Setup/Teardown)         |
+| Pattern         | Exemple en C# / .NET                                          |
+| --------------- | ------------------------------------------------------------- |
+| Observer        | Events C#, `IObservable<T>`, WPF Binding, Reactive Extensions |
+| Strategy        | Algorithmes tri, Validation données, Calcul prix (promos)     |
+| Command         | Undo/Redo, Transactions, Task scheduling, Boutons UI          |
+| State           | Workflow commande (Attente > Validée > Expédiée)              |
+| Template Method | Pipeline traitement données, Tests (Setup/Teardown)           |
 
 | Pattern                 | Problème                                    | Quand l'Utiliser                              | Avantages                                       | Inconvénients                                |
 | ----------------------- | ------------------------------------------- | --------------------------------------------- | ----------------------------------------------- | -------------------------------------------- |
@@ -77,16 +73,14 @@ _Concernent la communication entre objets_
 | Visitor                 | Séparer algorithmes de structure objets     | Opérations sur structure, Classes différentes | Nouvelles opérations faciles, Logique regroupée | Ajout classes difficile, Brise encapsulation |
 | Interpreter             | Interpréter langage ou expressions          | Grammaire simple, DSL                         | Grammaire modifiable, Extensible                | Inefficace si complexe, Performance limitée  |
 
-| Pattern                 | Exemple en C# / .NET                                     |
-| ----------------------- | -------------------------------------------------------- |
-| Chain of Responsibility | Middleware ASP.NET, Validation cascade, Support client   |
-| Iterator                | IEnumerable<T>, yield return, Parcours arbres/graphes    |
-| Mediator                | MediatR (CQRS), Contrôleur UI, Chat room                 |
-| Memento                 | Éditeur texte (Undo/Redo), Sauvegarde jeu                |
-| Visitor                 | Compilation (AST), Export données (JSON, XML, CSV)       |
-| Interpreter             | Regex, Moteurs règles métier, Calculatrices, Parsers SQL |
-
----
+| Pattern                 | Exemple en C# / .NET                                       |
+| ----------------------- | ---------------------------------------------------------- |
+| Chain of Responsibility | Middleware ASP.NET, Validation cascade, Support client     |
+| Iterator                | `IEnumerable<T>`, yield return, Parcours arbres/graphes    |
+| Mediator                | MediatR (CQRS), Contrôleur UI, Chat room                   |
+| Memento                 | Éditeur texte (Undo/Redo), Sauvegarde jeu                  |
+| Visitor                 | Compilation (AST), Export données (JSON, XML, CSV)         |
+| Interpreter             | Regex, Moteurs règles métier, Calculatrices, Parsers SQL   |
 
 ## Tableau de Décision Rapide
 
@@ -117,54 +111,50 @@ _Concernent la communication entre objets_
 | Ajouter opérations sans modifier classes    | Visitor                          |
 | Interpréter langage                         | Interpreter                      |
 
----
-
 ## Patterns par Fréquence d'Utilisation
 
 ### 🔥 Très Fréquents (Essentiels)
 
-| Pattern        | Technologies C# / .NET                      | Importance |
-| -------------- | ------------------------------------------- | ---------- |
-| Observer       | Events, IObservable<T>, Reactive Extensions | ⭐⭐⭐⭐⭐ |
-| Strategy       | Validation, Business Rules, LINQ            | ⭐⭐⭐⭐⭐ |
-| Factory Method | Dependency Injection, Service Locator       | ⭐⭐⭐⭐⭐ |
-| Decorator      | Middleware ASP.NET, Streams                 | ⭐⭐⭐⭐⭐ |
-| Adapter        | Intégration services tiers                  | ⭐⭐⭐⭐⭐ |
+| Pattern        | Technologies C# / .NET                         | Importance |
+| -------------- | ---------------------------------------------  | ---------- |
+| Observer       | Events, `IObservable<T>`, Reactive Extensions  | *****      |
+| Strategy       | Validation, Business Rules, LINQ               | *****      |
+| Factory Method | Dependency Injection, Service Locator          | *****      |
+| Decorator      | Middleware ASP.NET, Streams                    | *****      |
+| Adapter        | Intégration services tiers                     | *****      |
 
 ### 🔶 Fréquents (Importants)
 
 | Pattern         | Technologies C# / .NET                      | Importance |
 | --------------- | ------------------------------------------- | ---------- |
-| Builder         | StringBuilder, HttpClient, FluentValidation | ⭐⭐⭐⭐   |
-| Command         | MediatR (CQRS), Task Parallel Library       | ⭐⭐⭐⭐   |
-| Facade          | APIs unifiées, Service Layer                | ⭐⭐⭐⭐   |
-| Proxy           | Entity Framework, Castle DynamicProxy       | ⭐⭐⭐⭐   |
-| Template Method | Base classes abstraites, Frameworks         | ⭐⭐⭐⭐   |
+| Builder         | StringBuilder, HttpClient, FluentValidation | ****       |
+| Command         | MediatR (CQRS), Task Parallel Library       | ****       |
+| Facade          | APIs unifiées, Service Layer                | ****       |
+| Proxy           | Entity Framework, Castle DynamicProxy       | ****       |
+| Template Method | Base classes abstraites, Frameworks         | ****       |
 
 ### 🔵 Occasionnels (Utiles)
 
-| Pattern                 | Technologies C# / .NET          | Importance |
-| ----------------------- | ------------------------------- | ---------- |
-| Singleton               | DI avec AddSingleton (préférer) | ⭐⭐⭐     |
-| State                   | Workflow Engines                | ⭐⭐⭐     |
-| Composite               | UI Components, File Systems     | ⭐⭐⭐     |
-| Chain of Responsibility | ASP.NET Core Middleware         | ⭐⭐⭐     |
-| Iterator                | IEnumerable<T>, yield           | ⭐⭐⭐     |
+| Pattern                 | Technologies C# / .NET            | Importance |
+| ----------------------- | --------------------------------- | ---------- |
+| Singleton               | DI avec AddSingleton (préférer)   | ***        |
+| State                   | Workflow Engines                  | ***        |
+| Composite               | UI Components, File Systems       | ***        |
+| Chain of Responsibility | ASP.NET Core Middleware           | ***        |
+| Iterator                | `IEnumerable<T>`, yield           | ***        |
 
 ### 🔹 Rares (Spécialisés)
 
 | Pattern          | Technologies C# / .NET           | Importance |
 | ---------------- | -------------------------------- | ---------- |
-| Abstract Factory | Multi-plateforme, Themes         | ⭐⭐       |
-| Bridge           | Drivers, Abstraction Layer       | ⭐⭐       |
-| Flyweight        | String interning, Object pooling | ⭐⭐       |
-| Mediator         | MediatR, Message Bus             | ⭐⭐       |
-| Memento          | Undo/Redo systems                | ⭐⭐       |
-| Prototype        | Deep cloning                     | ⭐⭐       |
-| Visitor          | Compilateurs, AST                | ⭐         |
-| Interpreter      | Expression parsers               | ⭐         |
-
----
+| Abstract Factory | Multi-plateforme, Themes         | **         |
+| Bridge           | Drivers, Abstraction Layer       | **         |
+| Flyweight        | String interning, Object pooling | **         |
+| Mediator         | MediatR, Message Bus             | **         |
+| Memento          | Undo/Redo systems                | **         |
+| Prototype        | Deep cloning                     | **         |
+| Visitor          | Compilateurs, AST                | *          |
+| Interpreter      | Expression parsers               | *          |
 
 ## Combinaisons Fréquentes de Patterns
 
@@ -180,8 +170,6 @@ _Concernent la communication entre objets_
 | Builder + Prototype               | Construction avec modèles          | Génération configurations        |
 | Chain of Responsibility + Command | Pipeline de commandes              | Validation en cascade            |
 
----
-
 ## Patterns et Principes SOLID
 
 | Principe SOLID        | Patterns Conformes                            |
@@ -192,9 +180,7 @@ _Concernent la communication entre objets_
 | Interface Segregation | Adapter, Facade                               |
 | Dependency Inversion  | Factory, Strategy, Observer, Command          |
 
----
-
-## Aide-Mémoire pour Votre Certification
+## Aide-Mémoire pour le titre EADL
 
 ### C1 - Veille Technologique
 
@@ -230,8 +216,6 @@ Patterns favorisant la maintenabilité :
 - **Factory** > new disséminés
 - **Observer** > callback hell
 
----
-
 ## Conclusion Pratique
 
 **Règles d'Or :**
@@ -246,4 +230,4 @@ Patterns favorisant la maintenabilité :
 
 - Maîtrisez parfaitement les 5 patterns très fréquents (Observer, Strategy, Factory, Decorator, Adapter)
 - Comprenez bien les 5 patterns fréquents (Builder, Command, Facade, Proxy, Template Method)
-- Connaissez l'existence et le principe des autres pour les reconnaître -->
+- Connaissez l'existence et le principe des autres pour les reconnaître
