@@ -3310,7 +3310,7 @@ networks:
 
 ### Configuration Nginx
 
-```conf
+```cfg
 # nginx/nginx.conf
 events {
     worker_connections 1024;
