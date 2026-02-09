@@ -3,7 +3,8 @@
 ## 1. Pourquoi les commits conventionnels ?
 
 **Problème classique** :
-```
+
+```bash
 git log
 - "fix bug"
 - "update"
@@ -12,6 +13,7 @@ git log
 ```
 
 Impossible de :
+
 - Générer un changelog automatique
 - Savoir quel commit a cassé quoi
 - Déterminer automatiquement la prochaine version
@@ -21,7 +23,8 @@ Impossible de :
 ## 2. Le format (Conventional Commits)
 
 ### Structure de base
-```
+
+```text
 type(scope): description courte
 
 [corps optionnel]
@@ -32,7 +35,7 @@ type(scope): description courte
 ### Types standardisés
 
 | Type | Quand l'utiliser | Impact version |
-|------|------------------|----------------|
+| ------ | ------------------ | ---------------- |
 | `feat` | Nouvelle fonctionnalité | MINOR (0.1.0 → 0.2.0) |
 | `fix` | Correction de bug | PATCH (0.1.0 → 0.1.1) |
 | `docs` | Documentation uniquement | Aucun |
@@ -47,13 +50,15 @@ type(scope): description courte
 ### Scope (optionnel mais recommandé)
 
 Indique **quelle partie** du code est touchée :
-```
+
+```text
 feat(auth): add JWT token refresh
 fix(api): handle timeout on concert fetch
 chore(deps): upgrade expo to 52
 ```
 
 Scopes possibles pour ton projet :
+
 - `auth`, `api`, `ui`, `wallet`, `notifications`, `map`, `schedule`
 
 ### Description
@@ -66,7 +71,8 @@ Scopes possibles pour ton projet :
 ### Breaking changes
 
 Changement qui casse la compatibilité :
-```
+
+```text
 feat(api)!: change artist endpoint response format
 
 BREAKING CHANGE: Artists now return nested venue object
@@ -77,7 +83,7 @@ Le `!` ou le footer `BREAKING CHANGE:` trigger une version MAJOR (0.1.0 → 1.0.
 
 ## 3. Comment ça marche (sous le capot)
 
-```
+```text
 ┌─────────────────┐
 │  Tu codes       │
 └────────┬────────┘
@@ -117,6 +123,7 @@ Le `!` ou le footer `BREAKING CHANGE:` trigger une version MAJOR (0.1.0 → 1.0.
 ### Étape 1 : Installer les packages
 
 Dans ton projet **westill-app** :
+
 ```bash
 cd westill-app
 
@@ -141,6 +148,7 @@ npx commitizen init cz-conventional-changelog --save-dev --save-exact
 ```
 
 Ou manuellement dans `package.json` :
+
 ```json
 {
   "config": {
@@ -154,6 +162,7 @@ Ou manuellement dans `package.json` :
 ### Étape 3 : Configurer Commitlint
 
 Crée `commitlint.config.js` à la racine :
+
 ```js
 module.exports = {
   extends: ['@commitlint/config-conventional'],
@@ -209,11 +218,13 @@ chmod +x .husky/commit-msg
 ### Étape 5 : (Optionnel) Pre-commit hook avec lint-staged
 
 Crée `.husky/pre-commit` :
+
 ```bash
 npx lint-staged
 ```
 
 Configure `package.json` :
+
 ```json
 {
   "lint-staged": {
@@ -231,6 +242,7 @@ Configure `package.json` :
 ### Étape 6 : Ajouter des scripts npm
 
 Dans `package.json` :
+
 ```json
 {
   "scripts": {
@@ -260,7 +272,7 @@ git cz
 
 ### Interface Commitizen
 
-```
+```text
 ? Select the type of change that you're committing:
 ❯ feat:     A new feature
   fix:      A bug fix
@@ -287,7 +299,8 @@ git cz
 ```
 
 **Résultat** :
-```
+
+```text
 feat(auth): add login screen with email/password
 
 Implemented LoginScreen component with form validation
@@ -296,12 +309,14 @@ Implemented LoginScreen component with form validation
 ### Si tu oublies le format
 
 **Mauvais commit** :
+
 ```bash
 git commit -m "fixed bug"
 ```
 
 **Husky bloque** :
-```
+
+```text
 ⧗   input: fixed bug
 ✖   subject may not be empty [subject-empty]
 ✖   type may not be empty [type-empty]
@@ -309,6 +324,7 @@ git commit -m "fixed bug"
 ```
 
 Tu dois corriger :
+
 ```bash
 git commit -m "fix(api): handle null artist response"
 ```
@@ -316,11 +332,13 @@ git commit -m "fix(api): handle null artist response"
 ## 6. Générer automatiquement le changelog
 
 ### Installation
+
 ```bash
 npm install -D standard-version
 ```
 
 ### Config dans `package.json`
+
 ```json
 {
   "scripts": {
@@ -332,6 +350,7 @@ npm install -D standard-version
 ```
 
 ### Utilisation
+
 ```bash
 # Analyse les commits depuis le dernier tag
 # Génère CHANGELOG.md
@@ -341,6 +360,7 @@ npm run release
 ```
 
 **Résultat** (`CHANGELOG.md`) :
+
 ```markdown
 # Changelog
 
@@ -360,6 +380,7 @@ npm run release
 Même logique, mais adapté :
 
 ### `.commitlintrc.json` (ou `.js`)
+
 ```json
 {
   "extends": ["@commitlint/config-conventional"],
@@ -382,26 +403,31 @@ Même logique, mais adapté :
 ```
 
 Pas besoin de Husky en .NET, mais tu peux utiliser :
+
 - **Git hooks manuels** (`.git/hooks/commit-msg`)
 - **Commitizen CLI globalement** : `git cz` marche partout
 
 ## 8. Pièges courants
 
 ### Piège 1 : Scope trop générique
-```
+
+```text
 ❌ feat(app): add stuff
 ✅ feat(schedule): add day filter
 ```
 
 ### Piège 2 : Description vague
-```
+
+```text
 ❌ fix: fix bug
 ✅ fix(auth): prevent token refresh loop
 ```
 
 ### Piège 3 : Commits atomiques
+
 Un commit = une modification logique
-```
+
+```text
 ❌ feat: add login, fix bug, update deps
 ✅ feat(auth): add login screen
 ✅ fix(api): handle timeout
@@ -409,8 +435,10 @@ Un commit = une modification logique
 ```
 
 ### Piège 4 : Oublier le scope
+
 Sans scope, difficile de comprendre où est le changement :
-```
+
+```text
 ❌ feat: add filter
 ✅ feat(schedule): add venue filter
 ```
@@ -418,12 +446,14 @@ Sans scope, difficile de comprendre où est le changement :
 ## 9. Résumé pratique
 
 **Pour chaque commit** :
+
 1. `git add .`
 2. `npm run commit` (Commitizen te guide)
 3. Husky valide automatiquement
 4. Commit créé ✅
 
 **Avant une release** :
+
 1. `npm run release`
 2. Changelog généré
 3. Version bumpée
