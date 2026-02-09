@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import taskLists from 'markdown-it-task-lists'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -6,6 +7,7 @@ export default defineConfig({
   description: "Documentation pour le développement par Antoine Coulon",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    
     nav: [
       { text: "Home", link: "/" },
       { text: "Documentations", link: "/docs-index" },
@@ -83,5 +85,11 @@ export default defineConfig({
   },
 
   srcDir: "src",
-  base: '/dev-docs/'
+  base: '/dev-docs/',
+
+  markdown: {
+    config: (md) => {
+      md.use(taskLists)
+    }
+  }
 });
