@@ -72,8 +72,8 @@ export default defineConfig({
             link: "/git/git"
           },
           {
-            text: "Admin Système",
-            link: "/sys-admin/sys-admin"
+            text: "Infra",
+            link: "/infrastructure/infrastructure"
           },
           { text: "Ressources", link: "/resources/resources"},
           { text: "About", link: "/about" },

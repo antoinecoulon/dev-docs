@@ -21,7 +21,7 @@
 
 ---
 
-- [Administration système](./sys-admin/sys-admin)
+- [Infrastructure](./infrastructure/infrastructure)
 
 ---
 
