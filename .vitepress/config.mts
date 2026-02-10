@@ -75,7 +75,7 @@ export default defineConfig({
             text: "Admin Système",
             link: "/sys-admin/sys-admin"
           },
-          { text: "Ressources", link: "/resources/a-trier-resources"},
+          { text: "Ressources", link: "/resources/resources"},
           { text: "About", link: "/about" },
         ],
       },

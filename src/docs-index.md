@@ -25,4 +25,4 @@
 
 ---
 
-- [Ressources (à trier)](./resources/a-trier-resources)
+- [Ressources](./resources/resources)

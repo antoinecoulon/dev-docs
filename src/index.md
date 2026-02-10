@@ -16,9 +16,9 @@ hero:
 features:
   - title: Documentation exhaustive
     details: Exploration et prise de notes de différents concepts et technologies
-  - title: In Progress...
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: In Progress...
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Guides pas à pas
+    details: Pour reproduire une solution tout en apprenant par étapes
+  - title: Ressources
+    details: Assets, tutoriels, documentations officielles... des ressources sur tous les sujets
 ---
 
