@@ -2,6 +2,7 @@
 
 ## Notes
 
+- [Introduction](./intro)
 - [Setup et premiers pas](./setup-first-steps)
 - [Fondamentaux](./fondamentaux)
 - [Roadmap / Todolist d'apprentissage](./roadmap-rn)
