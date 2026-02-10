@@ -98,6 +98,7 @@ export default defineConfig({
       VitePWA({
         base: '/dev-docs/',
         scope: '/dev-docs/',
+        manifestFilename: 'manifest.json',
         registerType: 'autoUpdate',
         devOptions: {
           enabled: true,
