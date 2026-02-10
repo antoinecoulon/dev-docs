@@ -90,6 +90,8 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'manifest', href: '/dev-docs/manifest.json' }],
+    ['link', { rel: 'icon', href: '/dev-docs/favicon.ico', sizes: '48x48' }],
+    ['link', { rel: 'icon', href: '/dev-docs/favicon.svg', sizes: 'any', type: 'image/svg+xml' }],
     ['meta', { name: 'theme-color', content: '#646cff' }]
   ],
 
