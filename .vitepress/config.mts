@@ -89,7 +89,7 @@ export default defineConfig({
   base: '/dev-docs/',
 
   head: [
-    ['link', { rel: 'manifest', href: '/manifest.json' }],
+    ['link', { rel: 'manifest', href: '/dev-docs/manifest.json' }],
     ['meta', { name: 'theme-color', content: '#646cff' }]
   ],
 
@@ -116,12 +116,12 @@ export default defineConfig({
           start_url: '/dev-docs/',
           icons: [
             {
-              src: '/icon-192.png',
+              src: '/dev-docs/icon-192.png',
               sizes: '192x192',
               type: 'image/png'
             },
             {
-              src: '/icon-512.png',
+              src: '/dev-docs/icon-512.png',
               sizes: '512x512',
               type: 'image/png'
             }
