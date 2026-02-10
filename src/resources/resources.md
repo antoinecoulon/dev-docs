@@ -4,13 +4,13 @@
 
 - [Ultimate React Resources](https://dev.to/themeselection/ultimate-reactjs-resources-for-web-developers-2021-424c)
 - [Libraries](https://medium.com/@ryanblakes/best-react-component-libraries-in-2025-and-how-to-use-them-2fa97a76e893)
-    - ShadCN/UI
-    - Chakra UI
-    - Smooth UI (animé)
-    - MUI (Material)
-    - Radix UI
-    - Ant Design
-    - Mantine UI
+  - ShadCN/UI
+  - Chakra UI
+  - Smooth UI (animé)
+  - MUI (Material)
+  - Radix UI
+  - Ant Design
+  - Mantine UI
 - [UVCanvas](https://uvcanvas.com/) - React animated backgrounds library
 - [HeroUI](https://www.heroui.com/) - React UI library
 - [Fancy Components](https://www.fancycomponents.dev/)
@@ -21,13 +21,12 @@
 
 ## Conception
 
-https://github.com/stan-smith/FossFLOW
-
-[Sign Up & Log In - Moqups App](https://app.moqups.com/)
+- [FossFlow](https://github.com/stan-smith/FossFLOW)
+- [Moqups App](https://app.moqups.com/)
 
 ## Cheatsheets
 
-# **Général**
+### Général
 
 - [OverAPI](https://overapi.com/)
 - [Awesome Cheatsheets](https://lecoupa.github.io/awesome-cheatsheets/)
@@ -35,21 +34,21 @@ https://github.com/stan-smith/FossFLOW
 - [Devdocs](https://devdocs.io/)
 - [DevHints](https://devhints.io/)
 
-# **Emmet**
+### Emmet
 
 - [Emmet](https://docs.emmet.io/cheat-sheet/)
 
-# **Markdown**
+### Markdown
 
 - [Markdown](https://www.markdownguide.org/cheat-sheet/)
 
-# **HTML / CSS / JavaScript**
+### HTML / CSS / JavaScript
 
 - [HTML](https://htmlcheatsheet.com/)
 - [CSS](https://htmlcheatsheet.com/css/)
 - [JavaScript](https://htmlcheatsheet.com/js/)
 
-# **Tailwind**
+### Tailwind
 
 - [Tailwind CSS](https://nerdcave.com/tailwind-cheat-sheet)
 
@@ -73,9 +72,7 @@ https://github.com/stan-smith/FossFLOW
 - [ShadcnUI color customizer](https://customizer.railly.dev/)
 - [Aceternity](https://ui.aceternity.com/components/3d-card-effect) - + de components
 
----
-
-# **Images / Illustrations**
+### Images / Illustrations
 
 - [Lorem Picsum](https://picsum.photos/) - Générateur d'images aléatoires
 - [Avatar Placeholder](https://avatar-placeholder.iran.liara.run/) - Générateur d'avatar style placeholder
@@ -83,23 +80,17 @@ https://github.com/stan-smith/FossFLOW
 - [TinyPNG](https://tinypng.com/)
 - [Dither it!](https://ditherit.com/)
 
----
-
-# **Couleurs**
+### Couleurs
 
 - [Palette Maker](https://palettemaker.com/)
 - [hue.tools](https://hue.tools/mix?mode=lch)
 - [Colorize.design](https://colorize.design/)
 
----
-
-# **Librairies SVG**
+### Librairies SVG
 
 - [SVGL](https://svgl.app/) - Icônes SVG Dev Languages
 
----
-
-# **Icones**
+### Icones
 
 - [Unicornicons](https://unicornicons.com/)
 - [Materiel Icons (Google Fonts)](https://fonts.google.com/icons)
@@ -109,30 +100,22 @@ https://github.com/stan-smith/FossFLOW
 - [React-icons](https://react-icons.github.io/react-icons/)
 - [Icon-Icons](https://icon-icons.com/fr/)
 
----
-
-# **Shapes / Patterns / Motifs**
+### Shapes / Patterns / Motifs
 
 - [PatternPad](https://patternpad.com/) - Patterns et motifs
 - [Shape Divider](https://www.shapedivider.app/) - Custom shape dividers
 - [Colour Contrast](https://colourcontrast.cc/)
 - [Contrast Ratio](https://contrast-ratio.org/#white-on-hsla%28200%2C0%25%2C0%25%2C.7%29)
 
----
-
-# **Backgrounds**
+### Backgrounds
 
 - [Animated Backgrounds](https://animatedbackgrounds.me/)
 
----
-
-# **Animations**
+### Animations
 
 - [Lottie](https://developers.lottiefiles.com/) - Librairie d'animations (JSON)
 
----
-
-# **Sprites**
+### Sprites
 
 - [Spiters Resources](https://www.spriters-resource.com/)
 
