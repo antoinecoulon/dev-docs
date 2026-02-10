@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { VitePWA } from 'vite-plugin-pwa'
 import taskLists from 'markdown-it-task-lists'
 
 // https://vitepress.dev/reference/site-config
@@ -86,6 +87,49 @@ export default defineConfig({
 
   srcDir: "src",
   base: '/dev-docs/',
+
+  head: [
+    ['link', { rel: 'manifest', href: '/manifest.json' }],
+    ['meta', { name: 'theme-color', content: '#646cff' }]
+  ],
+
+  vite: {
+    plugins: [
+      VitePWA({
+        base: '/dev-docs/',
+        scope: '/dev-docs/',
+        registerType: 'autoUpdate',
+        devOptions: {
+          enabled: true,
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+          cleanupOutdatedCaches: true
+        },
+        manifest: {
+          name: 'Dev Docs',
+          short_name: 'DevDocs',
+          description: 'Documentation technique et guides. Antoine Coulon',
+          theme_color: '#646cff',
+          background_color: '#ffffff',
+          display: 'standalone',
+          start_url: '/dev-docs/',
+          icons: [
+            {
+              src: '/icon-192.png',
+              sizes: '192x192',
+              type: 'image/png'
+            },
+            {
+              src: '/icon-512.png',
+              sizes: '512x512',
+              type: 'image/png'
+            }
+          ]
+        }
+      })
+    ]
+  },
 
   markdown: {
     config: (md) => {
