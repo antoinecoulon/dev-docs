@@ -315,3 +315,164 @@ type Props = Artist  // Réutilise le type
 ```
 
 Ça évite la duplication et assure la cohérence.
+
+## SafeAreaView
+
+Le composant SafeAreaView permet de gérer le remplissage de l'écran sans cacher les barres de notifications et de navigation du téléphone.
+
+```bash
+npx expo install react-native-safe-area-context
+```
+
+Exemple :
+
+```tsx
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {/* ... header ... */}
+
+        <FlatList
+          ...
+        />
+
+        {/* ... footer ... */}
+      </SafeAreaView>
+    </SafeAreaProvider>
+  )
+}
+```
+
+## État & Hooks
+
+### useState - Gérer la réactivité
+
+En React, l'état ne se modifie jamais directement. Tu passes toujours par un setter.
+
+```tsx
+import { useState } from 'react'
+
+// Déclaration
+const [favorites, setFavorites] = useState<string[]>([])
+//     ↑ valeur     ↑ fonction      ↑ valeur initiale
+```
+
+Différence critique avec Vue :
+
+```tsx
+// Vue
+const favorites = ref<string[]>([])
+favorites.value.push('1')  // Mutation directe
+
+// React
+const [favorites, setFavorites] = useState<string[]>([])
+// favorites.push('1')  // ❌ NE MARCHE PAS, pas de re-render
+setFavorites([...favorites, '1'])  // ✅ Crée un nouveau tableau
+```
+
+Pourquoi l'immutabilité :
+
+- React compare les références, pas le contenu
+- Si tu mutes favorites.push(), la référence reste identique → pas de re-render
+- Créer un nouveau tableau change la référence → re-render déclenché
+
+Opérations courantes sur les tableaux
+
+```tsx
+// Ajouter
+setFavorites([...favorites, newId])
+
+// Retirer
+setFavorites(favorites.filter(id => id !== idToRemove))
+
+// Toggle (ajouter si absent, retirer si présent)
+setFavorites(prev => 
+  prev.includes(id) 
+    ? prev.filter(f => f !== id)  // Retirer
+    : [...prev, id]                // Ajouter
+)
+```
+
+Pattern `prev =>` recommandé : Quand le nouvel état dépend de l'ancien, utilise la fonction callback. Ça évite les bugs avec les closures.
+
+```tsx
+// ❌ Risqué si plusieurs updates rapides
+setCount(count + 1)
+
+// ✅ Toujours correct
+setCount(prev => prev + 1)
+```
+
+### useMemo - Calculs dérivés
+
+Équivalent de computed en Vue. Recalcule uniquement si les dépendances changent.
+
+```tsx
+import { useMemo } from 'react'
+
+const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
+const [favorites, setFavorites] = useState<string[]>([])
+
+// Filtrage coûteux
+const displayedArtists = useMemo(() => {
+  if (!showOnlyFavorites) return MOCK_ARTIST
+  return MOCK_ARTIST.filter(artist => favorites.includes(artist.id))
+}, [showOnlyFavorites, favorites])  // Recalcule si l'un change
+```
+
+Quand l'utiliser :
+
+- Calculs lourds (filtrage, tri, transformations)
+- Objets/tableaux passés en props (évite re-renders inutiles)
+
+Quand ne PAS l'utiliser :
+
+- Calculs triviaux (addition, accès direct)
+- Pas de dépendances ou trop complexes
+
+*Piège* : Oublier une dépendance → valeur stale. ESLint t'avertit normalement.
+
+### Combinaison useState + useMemo
+
+Pattern typique pour filtres :
+
+```tsx
+const [favorites, setFavorites] = useState<string[]>([])
+const [filter, setFilter] = useState<'all' | 'favorites'>('all')
+
+const displayedArtists = useMemo(() => {
+  if (filter === 'all') return MOCK_ARTIST
+  return MOCK_ARTIST.filter(a => favorites.includes(a.id))
+}, [filter, favorites])
+
+// Dans le JSX
+<FlatList data={displayedArtists} ... />
+```
+
+### Ce que tu dois observer
+
+- **Réactivité** : Le cœur change instantanément au clic
+- **Filtrage** : La liste se met à jour quand tu toggles le filtre
+- **Performance** : useMemo évite de refiltrer si favorites n'a pas changé
+- **Immutabilité** : Modifier favorites directement casserait tout
+
+### Points de vigilance
+
+Passer des fonctions aux enfants
+
+```tsx
+// ❌ Crée une nouvelle fonction à chaque render
+<ArtistCard onToggleFavorite={() => toggleFavorite(item.id)} />
+
+// ✅ Mieux (si beaucoup d'items, sinon ok)
+const handleToggle = useCallback(
+  () => toggleFavorite(item.id),
+  [item.id]
+)
+<ArtistCard onToggleFavorite={handleToggle} />
+```
+
+`useCallback` n'est utile que pour des listes >100 items ou composants lourds.
