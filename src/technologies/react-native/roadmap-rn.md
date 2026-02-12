@@ -6,10 +6,10 @@
 
 - [x]  Setup environnement complet
 - [x]  Créer le projet Expo avec TypeScript
-- [ ]  Comprendre les composants de base (`View`, `Text`, `Image`, `ScrollView`, `FlatList`)
-- [ ]  Maîtriser les hooks essentiels (`useState`, `useEffect`, `useMemo`)
-- [ ]  Implémenter la navigation avec Expo Router
-- [ ]  Créer un écran statique pour chaque onglet
+- [x]  Comprendre les composants de base (`View`, `Text`, `Image`, `ScrollView`, `FlatList`)
+- [x]  Maîtriser les hooks essentiels (`useState`, `useEffect`, `useMemo`)
+- [x]  Implémenter la navigation avec Expo Router
+- [x]  Créer un écran statique pour chaque onglet
 
 **Exercice :** Afficher une liste d'artistes mockée avec navigation vers une page détail.
 

@@ -1,5 +1,12 @@
 # React Native - Fondamentaux
 
+## Dans cette page
+
+- **Composants & Layout** : View, Text, Image, StyleSheet, flexbox
+- **Listes & Interaction** : FlatList, TouchableOpacity
+- **État & Hooks** : useState, useMemo, immutabilité
+- **Navigation** : Expo Router, routes dynamiques, useRouter
+
 ## Composants de base & Layout
 
 ### View & Text - Les fondations
@@ -37,6 +44,8 @@ Points clés :
 - Pas de className, pas de CSS : tout en objets JavaScript
 - Valeurs numériques = pixels (pas besoin de `'px'`)
 - Pourcentages = strings : `width: '50%'`
+
+> Les feuilles de styles peuvent aussi être mises dans un fichier indépendant et être exporté / importé.
 
 #### Flexbox - Différences critiques avec le web
 
@@ -452,6 +461,67 @@ const displayedArtists = useMemo(() => {
 <FlatList data={displayedArtists} ... />
 ```
 
+### Exercice pratique - Système de favoris
+
+**Modifie ton app pour :**
+
+État dans `App.tsx`
+
+```tsx
+const [favorites, setFavorites] = useState<string[]>([])
+const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
+```
+
+Fonction toggle
+
+```tsx
+const toggleFavorite = (id: string) => {
+  setFavorites(prev =>
+    prev.includes(id)
+      ? prev.filter(f => f !== id)
+      : [...prev, id]
+  )
+}
+```
+
+Liste filtrée :
+
+```tsx
+const displayedArtists = useMemo(() => {
+  if (!showOnlyFavorites) return MOCK_ARTIST
+  return MOCK_ARTIST.filter(artist => favorites.includes(artist.id))
+}, [showOnlyFavorites, favorites])
+```
+
+Passer les props à ArtistCard
+
+```tsx
+type Props = Artist & {
+  isFavorite: boolean
+  onToggleFavorite: () => void
+}
+```
+
+Ajoute un bouton cœur (utilise un Text avec emoji ou TouchableOpacity)
+
+```tsx
+<TouchableOpacity onPress={onToggleFavorite}>
+  <Text style={styles.heartIcon}>
+    {isFavorite ? '❤️' : '🤍'}
+  </Text>
+</TouchableOpacity>
+```
+
+Bouton de filtre dans le header
+
+```tsx
+<TouchableOpacity onPress={() => setShowOnlyFavorites(prev => !prev)}>
+  <Text>
+    {showOnlyFavorites ? 'Tous les artistes' : 'Mes favoris'}
+  </Text>
+</TouchableOpacity>
+```
+
 ### Ce que tu dois observer
 
 - **Réactivité** : Le cœur change instantanément au clic
@@ -476,3 +546,535 @@ const handleToggle = useCallback(
 ```
 
 `useCallback` n'est utile que pour des listes >100 items ou composants lourds.
+
+## Navigation (Expo Router)
+
+### File-based routing
+
+Installer les dépendances
+
+```bash
+npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
+```
+
+Package | Utilisé | Quand |
+------- | ----------------- | ----- |
+expo-router | Oui | Navigation file-based(Stack, Tabs, useRouter) |
+react-native-safe-area-context | Oui | Éviter encoches/barres système (SafeAreaView) |
+react-native-screens | Non (auto) | Écrans natifs optimisés |
+expo-linking | Oui | Notifications push, liens externes |
+expo-constants | Peut-être | Afficher version app, debug |
+expo-status-bar | Oui | Déjà fait, contrôle statut bar |
+
+Expo Router cherche les routes dans `app/`, il faut donc adapter la structure de notre application.
+
+```text
+westill-app/
+├── app/
+│   ├── _layout.tsx      # Layout racine
+│   └── index.tsx        # Page d'accueil (ton ancienne App.tsx)
+├── components/
+├── constants/
+├── types/
+└── package.json
+```
+
+`App.tsx` est devenu app/index.tsx (-> `export default function Index() {}`).
+
+Il faut aussi modifier la configuration de `app.json` et `package.json` :
+
+```json
+{
+  "expo": {
+    "name": "westill-app",
+    "slug": "westill-app",
+    "scheme": "westill-app",
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    }
+  }
+}
+```
+
+```json
+{
+  "main": "expo-router/entry"
+}
+```
+
+Expo Router utilise la structure de fichiers pour générer les routes automatiquement.
+
+```text
+app/
+├── index.tsx           → /
+├── about.tsx           → /about
+├── artist/
+│   └── [id].tsx        → /artist/:id (dynamique)
+└── (tabs)/             → Layout avec navigation
+    ├── _layout.tsx
+    ├── index.tsx       → Tab 1
+    └── map.tsx         → Tab 2
+```
+
+Concepts clés :
+
+- Fichiers = routes
+- [param] = segment dynamique
+- (folder) = groupe sans ajouter de segment d'URL
+- _layout.tsx = layout partagé
+
+### useRouter & Link - Navigation
+
+Deux façons de naviguer :
+
+```tsx
+import { Link, useRouter } from 'expo-router'
+
+// 1. Composant Link (préféré pour les listes)
+<Link href="/artist/1">
+  <ArtistCard {...artist} />
+</Link>
+
+// 2. Hook useRouter (pour navigation programmatique)
+const router = useRouter()
+router.push('/artist/1')
+router.back()
+router.replace('/home')  // Remplace dans l'historique
+```
+
+Différences :
+
+`push` : Ajoute à la pile (bouton retour disponible)
+`replace` : Remplace l'écran actuel (pas de retour)
+`back` : Retour arrière
+
+### Routes dynamiques - [id].tsx
+
+Fichier : app/artist/[id].tsx
+
+```tsx
+import { View, Text } from 'react-native'
+import { useLocalSearchParams } from 'expo-router'
+
+export default function ArtistDetail() {
+  const { id } = useLocalSearchParams<{ id: string }>()
+  
+  // Trouve l'artiste dans MOCK_ARTIST avec cet id
+  const artist = MOCK_ARTIST.find(a => a.id === id)
+  
+  if (!artist) {
+    return <Text>Artiste non trouvé</Text>
+  }
+  
+  return (
+    <View>
+      <Text>{artist.name}</Text>
+      <Text>{artist.time} - {artist.stage}</Text>
+    </View>
+  )
+}
+```
+
+`useLocalSearchParams` : Récupère les paramètres de l'URL.
+
+### Passer des paramètres
+
+Trois syntaxes :
+
+```tsx
+// 1. Simple
+<Link href="/artist/1">Voir détail</Link>
+
+// 2. Objet (plus lisible)
+<Link href={{ pathname: '/artist/[id]', params: { id: '1' } }}>
+  Voir détail
+</Link>
+
+// 3. useRouter
+router.push({
+  pathname: '/artist/[id]',
+  params: { id: artist.id }
+})
+```
+
+Pour plusieurs params :
+
+```tsx
+<Link href={{
+  pathname: '/concert/[id]',
+  params: { id: '1', from: 'favorites' }
+}} />
+
+// Récupération
+const { id, from } = useLocalSearchParams<{ id: string, from?: string }>()
+```
+
+### Exercice pratique - Page détail artiste
+
+Crée la structure
+
+```bash
+mkdir app/artist
+touch app/artist/[id].tsx
+```
+
+Implémente la page détail, affiche :
+
+- Grande image de l'artiste (300x300)
+- Nom en gros titre
+- Heure et scène
+- Bouton "Retour" qui appelle `router.back()`
+
+Structure de base :
+
+```tsx
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+
+export default function ArtistDetail() {
+  const { id } = useLocalSearchParams<{ id: string }>()
+  const router = useRouter()
+  
+  // TODO : Trouver l'artiste
+  // TODO : Afficher les infos
+  // TODO : Bouton retour
+  
+  return (
+    <View style={styles.container}>
+      {/* Ton code ici */}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ebe8d4',
+    padding: 20,
+  },
+  // ... autres styles
+})
+```
+
+Modifie ArtistList pour naviguer: remplace `Alert.alert()` par la navigation :
+
+```tsx
+import { useRouter } from 'expo-router'
+
+export default function ArtistList() {
+  const router = useRouter()
+  // ... état existant
+  
+  return (
+    <FlatList
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          onPress={() => router.push({
+            pathname: '/artist/[id]',
+            params: { id: item.id }
+          })}
+          activeOpacity={0.7}
+        >
+          <ArtistCard {...item} ... />
+        </TouchableOpacity>
+      )}
+      // ... reste
+    />
+  )
+}
+```
+
+-> Problème potentiel - `MOCK_ARTIST` dupliqué : tu vas avoir besoin de `MOCK_ARTIST` dans plusieurs fichiers. Deux solutions :
+
+- Solution A : Exporter les mocks (simple, temporaire)
+
+```tsx
+// constants/mockData.ts
+export const MOCK_ARTIST: Artist[] = [...]
+```
+
+- Solution B : Context API (mieux, pour plus tard)
+
+Partager l'état favorites entre écrans. On verra ça après si besoin.
+Pour l'instant, utilise la solution A : crée `constants/mockData.ts` et importe-le où tu en as besoin.
+
+**Ce que tu dois observer:**
+
+- Navigation fluide : Le slide entre liste et détail
+- Bouton retour natif : Apparaît automatiquement en haut (Android & iOS)
+- Passage de paramètres : L'id est bien récupéré
+- Typage : `useLocalSearchParams<{ id: string }>()` type-safe
+
+**Pièges courants:**
+
+- Oublier de créer le dossier `app/` : Expo Router cherche les routes dans `app/`, pas à la racine.
+- Typage des params : Sans le générique, TypeScript infère `string | string[]`. Toujours spécifier :
+
+```tsx
+const { id } = useLocalSearchParams<{ id: string }>()
+```
+
+`MOCK_ARTIST` non trouvé : Tu auras une erreur d'import si tu ne l'exportes pas correctement.
+
+### Layouts
+
+Expo Router utilise un système de layouts. Toutes les pages héritent du layout parent.
+
+Le `_layout.tsx` wraps toutes les pages dans son dossier et sous-dossiers :
+
+```text
+app/
+├── _layout.tsx          ← Wrapper pour TOUT
+│   └── index.tsx        ← Wrapped
+│   └── artist/
+│       ├── _layout.tsx  ← Wrapper pour /artist/*
+│       └── [id].tsx     ← Wrapped par les 2 layouts
+```
+
+Hiérarchie : `Root Layout` → `Nested Layout` → `Page`
+
+Deux stratégies pouur placer SafeAreaView :
+
+Stratégie A : SafeAreaView dans le layout racine
+
+```tsx
+// app/_layout.tsx
+import { Stack } from 'expo-router'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
+    </SafeAreaProvider>
+  )
+}
+```
+
+**Résultat** : Toutes les pages ont accès à SafeArea, mais tu dois utiliser SafeAreaView dans chaque page individuellement.
+
+```tsx
+// app/index.tsx
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+export default function Index() {
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Contenu */}
+    </SafeAreaView>
+  )
+}
+```
+
+Stratégie B : Header/Footer globaux dans le layout (si tu veux un header/footer identiques partout) :
+
+```tsx
+// app/_layout.tsx
+import { Stack } from 'expo-router'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet, Text, View } from 'react-native'
+
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {/* Header global */}
+        <View style={styles.header}>
+          <Text style={styles.title}>Westill 2026</Text>
+        </View>
+
+        {/* Pages ici */}
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: '#ebe8d4' }
+          }}
+        />
+
+        {/* Footer global */}
+        <View style={styles.footer}>
+          <Text>Footer</Text>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  )
+}
+```
+
+**Résultat** : Header/Footer sur toutes les pages automatiquement. Les pages n'ont plus besoin de SafeAreaView.
+
+```tsx
+// app/index.tsx - Plus simple
+export default function Index() {
+  return <ArtistList />  // Pas de wrapper, déjà géré
+}
+```
+
+Quelle stratégie choisir ?
+
+*Stratégie A* si :
+
+- Certaines pages ont des headers différents
+- Tu veux plus de contrôle par page
+- Navigation avec tabs (chaque tab son header)
+
+*Stratégie B* si :
+
+- Header/Footer identiques partout
+- App simple avec une structure fixe
+- Ton cas actuel (1 seul header)
+
+#### Options de `Stack`
+
+```tsx
+<Stack
+  screenOptions={{
+    headerShown: false,           // Cache le header natif
+    contentStyle: { 
+      backgroundColor: '#ebe8d4'  // Fond de toutes les pages
+    },
+    animation: 'slide_from_right', // Animation de transition
+  }}
+>
+  {/* Ou personnaliser par route */}
+  <Stack.Screen 
+    name="artist/[id]" 
+    options={{
+      headerShown: true,           // Affiche le header pour cette page
+      title: 'Détail artiste',
+      headerBackTitle: 'Retour',
+    }}
+  />
+</Stack>
+```
+
+### Navigation par onglets (`Tabs`)
+
+Actuellement tu as une navigation Stack (pile d'écrans). Pour les onglets, il faut restructurer avec un dossier `(tabs)`.
+
+```text
+app/
+├── _layout.tsx                # Layout racine (Stack)
+├── (tabs)/                    # Groupe d'onglets
+│   ├── _layout.tsx            # Layout tabs
+│   ├── index.tsx              # Tab 1 : Programmation
+│   ├── map.tsx                # Tab 2 : Plan
+│   ├── infos.tsx              # Tab 3 : Infos pratiques
+│   └── wallet.tsx             # Tab 4 : Cashless
+└── artist/
+    └── [id].tsx               # Détail (hors tabs)
+```
+
+Le `(tabs)` avec parenthèses : Groupe les routes sans ajouter /tabs dans l'URL.
+
+Créer le layout des tabs: fichier `app/(tabs)/_layout.tsx`:
+
+```jsx
+import { Tabs } from 'expo-router'
+
+export default function TabLayout() {
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#18110b',
+        tabBarInactiveTintColor: '#999',
+        tabBarStyle: {
+          backgroundColor: '#ebe8d4',
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Programme',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>🎸</Text>,
+        }}
+      />
+      <Tabs.Screen
+        name="map"
+        options={{
+          title: 'Plan',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>🗺️</Text>,
+        }}
+      />
+      <Tabs.Screen
+        name="infos"
+        options={{
+          title: 'Infos',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>ℹ️</Text>,
+        }}
+      />
+      <Tabs.Screen
+        name="wallet"
+        options={{
+          title: 'Cashless',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24 }}>💳</Text>,
+        }}
+      />
+    </Tabs>
+  )
+}
+```
+
+**Options utiles :**
+
+- `tabBarActiveTintColor` : Couleur de l'onglet actif
+- `tabBarIcon` : Icône de l'onglet (emoji ou icône vectorielle)
+- `title` : Label affiché
+
+Modifier le layout racine: fichier `app/_layout.tsx`:
+
+```tsx
+import { Stack } from 'expo-router'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="artist/[id]" 
+          options={{ 
+            presentation: 'modal',  // Présentation modale (optionnel)
+          }} 
+        />
+      </Stack>
+    </SafeAreaProvider>
+  )
+}
+```
+
+Placer les pages dans `(tabs)`:
+
+- `app/(tabs)/index.tsx`
+- `app/(tabs)/artists.tsx`
+- `app/(tabs)/map.tsx`
+- `app/(tabs)/infos.tsx`
+- `app/(tabs)/wallet.tsx`
+
+#### Bonus : Icônes vectorielles
+
+Pour des vraies icônes au lieu d'emojis, utilise `@expo/vector-icons` (déjà inclus) :
+
+```tsx
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+<Tabs.Screen
+  name="index"
+  options={{
+    title: 'Programme',
+    tabBarIcon: ({ color, size }) => (
+      <MaterialCommunityIcons name="guitar-electric" size={size} color={color} />
+    ),
+  }}
+/>
+```
+
+Icônes disponibles : <https://icons.expo.fyi>
