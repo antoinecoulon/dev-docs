@@ -7,6 +7,8 @@
 - [Fondamentaux](./fondamentaux)
 - [Roadmap / Todolist d'apprentissage](./roadmap-rn)
 - [ESLint dans un projet React Native](./eslint-rn)
+- [Theming](./theming)
+- [UI Avancé](./ui-advanced)
 
 ## Ressources clés
 

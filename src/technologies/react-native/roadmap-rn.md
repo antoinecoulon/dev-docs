@@ -2,7 +2,7 @@
 
 > En lien avec le projet Westill App
 
-## Phase 1 : Fondations (1-2 semaines)
+## Phase 1 : Fondations
 
 - [x]  Setup environnement complet
 - [x]  Créer le projet Expo avec TypeScript
@@ -11,9 +11,24 @@
 - [x]  Implémenter la navigation avec Expo Router
 - [x]  Créer un écran statique pour chaque onglet
 
-**Exercice :** Afficher une liste d'artistes mockée avec navigation vers une page détail.
+**Exercice :** Afficher une liste d'artistes mockée avec navigation vers une page détail. (DONE)
 
-## Phase 2 : Intégration API (1-2 semaines)
+## Phase 1.5 : Améliorations Frontend
+
+- [x]  Custom Hooks -- extraire de la logique réutilisable
+- [x]  Context API -- partager un état sans prop drilling
+- [x]  AsyncStorage -- persister des données localement
+- [x]  Filtres avancés -- combiner état, mémoïsation et UX
+
+## Phase 2 : Fonctionnalités clés (2-3 semaines)
+
+- [ ]  Plan du festival (image zoomable ou carte interactive)
+- [x]  Favoris (stockage local)
+- [ ]  Evaluer l'app dans Informations
+
+**Exercice :** Filtrer la prog par scène avec état persisté. (DONE)
+
+## Phase 3 : Intégration API (1-2 semaines)
 
 - [ ]  Configurer Axios + TanStack Query
 - [ ]  Créer les endpoints côté [ASP.NET](http://asp.net/) Core (CRUD artistes, programme)
@@ -22,15 +37,6 @@
 - [ ]  Implémenter le pull-to-refresh
 
 **Exercice :** Programmation temps réel avec rafraîchissement automatique.
-
-## Phase 3 : Fonctionnalités clés (2-3 semaines)
-
-- [ ]  Plan du festival (image zoomable ou carte interactive)
-- [ ]  Filtres par scène/jour/genre
-- [ ]  Favoris (stockage local)
-- [ ]  Infos pratiques (contenu statique ou CMS)
-
-**Exercice :** Filtrer la prog par scène avec état persisté.
 
 ## Phase 4 : Notifications & Offline (1-2 semaines)
 
