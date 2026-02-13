@@ -13,25 +13,21 @@
 
 **Exercice :** Afficher une liste d'artistes mockée avec navigation vers une page détail. (DONE)
 
-## Phase 1.5 : Améliorations Frontend
+## Phase 2 : Améliorations Frontend (2-3 semaines)
 
+- [x]  Favoris (stockage local)
 - [x]  Custom Hooks -- extraire de la logique réutilisable
 - [x]  Context API -- partager un état sans prop drilling
 - [x]  AsyncStorage -- persister des données localement
 - [x]  Filtres avancés -- combiner état, mémoïsation et UX
 
-## Phase 2 : Fonctionnalités clés (2-3 semaines)
-
-- [ ]  Plan du festival (image zoomable ou carte interactive)
-- [x]  Favoris (stockage local)
-- [ ]  Evaluer l'app dans Informations
-
 **Exercice :** Filtrer la prog par scène avec état persisté. (DONE)
 
 ## Phase 3 : Intégration API (1-2 semaines)
 
+- [ ]  Setup / Mettre en place le backend
+- [ ]  Créer les endpoints côté ASP.NET Core (CRUD artistes, programme)
 - [ ]  Configurer Axios + TanStack Query
-- [ ]  Créer les endpoints côté [ASP.NET](http://asp.net/) Core (CRUD artistes, programme)
 - [ ]  Fetcher et afficher les données réelles
 - [ ]  Gérer les états loading/error
 - [ ]  Implémenter le pull-to-refresh
@@ -58,3 +54,8 @@
 - [ ]  Tests sur devices réels
 - [ ]  Optimisation performances (pourquoi c'est lent ?)
 - [ ]  Déploiement stores (Google Play + App Store)
+
+## Backlog post-MVP
+
+- [ ]  Plan du festival (image zoomable ou carte interactive)
+- [ ]  Evaluer l'app dans Informations
