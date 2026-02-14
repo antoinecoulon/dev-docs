@@ -11,8 +11,6 @@
 - [x]  Implémenter la navigation avec Expo Router
 - [x]  Créer un écran statique pour chaque onglet
 
-**Exercice :** Afficher une liste d'artistes mockée avec navigation vers une page détail. (DONE)
-
 ## Phase 2 : Améliorations Frontend (2-3 semaines)
 
 - [x]  Favoris (stockage local)
@@ -21,23 +19,21 @@
 - [x]  AsyncStorage -- persister des données localement
 - [x]  Filtres avancés -- combiner état, mémoïsation et UX
 
-**Exercice :** Filtrer la prog par scène avec état persisté. (DONE)
-
 ## Phase 3 : Intégration API (1-2 semaines)
 
-- [ ]  Setup / Mettre en place le backend
-- [ ]  Créer les endpoints côté ASP.NET Core (CRUD artistes, programme)
-- [ ]  Configurer Axios + TanStack Query
-- [ ]  Fetcher et afficher les données réelles
-- [ ]  Gérer les états loading/error
-- [ ]  Implémenter le pull-to-refresh
-
-**Exercice :** Programmation temps réel avec rafraîchissement automatique.
+- [x]  Setup / Mettre en place le backend
+- [x]  Créer les endpoints côté ASP.NET Core (GET all/byId artist)
+- [x]  Configurer Axios + TanStack Query
+- [x]  Fetcher et afficher les données réelles
+- [x]  Gérer les états loading/error
+- [x]  Implémenter le pull-to-refresh
+- [ ]  Finir d'implémenter le backend
+- [ ]  Toutes les données sont réelles
 
 ## Phase 4 : Notifications & Offline (1-2 semaines)
 
 - [ ]  Setup Expo Notifications
-- [ ]  Intégrer les push côté [ASP.NET](http://asp.net/) Core (Firebase Admin SDK)
+- [ ]  Intégrer les push côté ASP.NET Core (Firebase Admin SDK)
 - [ ]  Notifications locales (rappel avant concert favori)
 - [ ]  Mode offline basique (cache TanStack Query)
 
@@ -59,3 +55,5 @@
 
 - [ ]  Plan du festival (image zoomable ou carte interactive)
 - [ ]  Evaluer l'app dans Informations
+
+- [ ] Composants Error et Loading
