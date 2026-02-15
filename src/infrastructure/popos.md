@@ -361,3 +361,27 @@ sudo snap remove nom
 ```
 
 **Note :** Flatpak est généralement préféré sur Pop!_OS.
+
+## Configurations
+
+### Bluetooth
+
+**Utilisation de bluetoothctl dans le Terminal :**
+
+Ouvre le Terminal et lance l'outil de contrôle Bluetooth : `bluetoothctl`
+
+Active l'Agent pour gérer les demandes d'appairage : `agent on`
+
+Définis l'Agent comme Défaut : `default-agent`
+
+Lance la Recherche des appareils à proximité : `scan on` (Note : Cherche le nom de ton appareil et copie son adresse MAC, qui ressemble à XX:XX:XX:XX:XX:XX*)*.
+
+Appaire l'Appareil : `pair [MAC_ADDRESS]`
+
+Approuve/Confirme : Si on te demande un code d'accès ou une confirmation "oui/non", tape yes.
+
+Fais confiance à l'appareil pour qu'il se reconnecte automatiquement à l'avenir : `trust [MAC_ADDRESS]`
+
+Établis la Connexion : `connect [MAC_ADDRESS]`
+
+Quitte l'Outil : `exit`
