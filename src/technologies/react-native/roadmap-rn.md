@@ -55,5 +55,5 @@
 
 - [ ]  Plan du festival (image zoomable ou carte interactive)
 - [ ]  Evaluer l'app dans Informations
-
-- [ ] Composants Error et Loading
+- [ ]  Statistiques Edition
+- [ ]  Composants Error et Loading
